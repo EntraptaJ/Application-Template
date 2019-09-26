@@ -9,6 +9,7 @@ import { ensureDbConnection } from 'API/Library/getDbConnection';
 async function startAPI(): Promise<void> {
   const server = new Koa();
   const serverRouter = new KoaRouter();
+  
   const dbConnection = ensureDbConnection();
 
   const apiServer = new ApolloServer({

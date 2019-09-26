@@ -24,7 +24,12 @@ export class User extends BaseEntity {
   email: string;
 
   @Field(() => [UserRole])
-  @Column({ array: true, enum: UserRole })
+  @Column({
+    array: true,
+    enum: UserRole,
+    type: 'enum',
+    default: [UserRole.USER],
+  })
   roles: UserRole[];
 
   @Column('text')

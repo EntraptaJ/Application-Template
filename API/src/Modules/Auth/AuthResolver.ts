@@ -7,6 +7,7 @@ import {
   RequestPasswordResetInput,
 } from './AuthInput';
 import { User } from 'API/Modules/Users/UserModel';
+import { hasSetup } from '../Utilities/hasSetup';
 
 @Resolver()
 export class AuthResolver {
@@ -29,6 +30,7 @@ export class AuthResolver {
     return { token: await user.generateToken(password) };
   }
 
+  @hasSetup(true)
   @Mutation(() => RegisterResponse)
   async register(@Arg('input')
   {

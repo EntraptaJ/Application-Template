@@ -3,7 +3,7 @@ import { hash, compare } from 'bcryptjs';
 import { Context } from 'koa';
 import { User } from 'API/Modules/Users/UserModel';
 import { sign, verify } from 'jsonwebtoken';
-import { config } from 'API/config';
+import { config } from 'API/Config';
 import { AuthenticationError } from 'apollo-server-koa';
 
 export interface AuthPayload {
