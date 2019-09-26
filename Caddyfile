@@ -1,4 +1,5 @@
 *:80 {
   tls off
   proxy /graphql http://api
+  proxy / http://ui
 }
