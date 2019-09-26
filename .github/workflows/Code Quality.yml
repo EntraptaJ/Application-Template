@@ -1,17 +1,27 @@
 name: Code Quality
 on: pull_request
+
 jobs:
   Test:
     name: Testing
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: pgpass
+          POSTGRES_HOST: localhost
+          POSTGRES_DB: application
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
       - uses: actions/checkout@v1
-      - uses: harmon758/postgresql-action@v1
-        with:
-          postgresql version: '11'
-          postgresql db: 'application'
-          postgresql password: 'pgpass'
       - uses: KristianFJones/npm-run-action@master
+        env:
+          DB_HOST: postgres
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           scriptName: "test"

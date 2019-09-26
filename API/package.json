@@ -11,6 +11,24 @@
     "prettier": "prettier -c src/**/*.ts",
     "lint": "eslint ./src/*.ts"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^API/(.*)$": "<rootDir>/src/$1"
+    },
+    "testRegex": ".*(test|spec)\\.ts",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -54,29 +72,42 @@
     "type-graphql": "^0.17.5",
     "typeorm": "^0.2.19"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.(t|j)sx?$": "ts-jest"
-    },
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^API/(.*)$": "<rootDir>/src/$1"
-    },
-    "globalSetup": "<rootDir>/src/testSetup.ts",
-    "testRegex": ".*(test|spec)\\.ts",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
-  },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all",
     "arrowParens": "always",
     "semi": true
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "jest"
+    ],
+    "env": {
+      "jest/globals": true
+    },
+    "extends": [
+      "standard",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/standard",
+      "prettier/@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        {
+          "allowExpressions": true
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "none"
+        }
+      ]
+    }
   }
 }
