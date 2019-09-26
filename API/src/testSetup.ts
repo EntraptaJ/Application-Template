@@ -1,4 +1,4 @@
-import './setup';
+import './Setup';
 import { createConnection } from 'typeorm';
 import { getConnectionArgs } from 'API/Library/getDbConnection';
 
