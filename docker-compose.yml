@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  Web:
+    image: abiosoft/caddy
+    ports:
+      - 80:80
+    volumes:
+      - './Caddyfile:/etc/Caddyfile'
+  api:
+    build:
+      context: './API'
+      dockerfile: 'Dockerfile.dev'
+    image: 'applicationtemplate'
+    environment:
+      - TEST=TEST
+    volumes:
+      - './API:/development'
+  
