@@ -1,7 +1,7 @@
 // API/Library/getGraphQLSchema.ts
-import { GraphQLSchema } from 'graphql'
-import { resolve } from 'path'
-import { buildSchema } from 'type-graphql'
+import { GraphQLSchema } from 'graphql';
+import { resolve } from 'path';
+import { buildSchema } from 'type-graphql';
 
 export function generateGQLSchema(): Promise<GraphQLSchema> {
   return buildSchema({
@@ -9,5 +9,5 @@ export function generateGQLSchema(): Promise<GraphQLSchema> {
       resolve(`${__dirname}/../Modules/**/*Resolver.ts`),
       resolve(`${__dirname}/../Modules/**/*Resolver.js`),
     ],
-  })
+  });
 }

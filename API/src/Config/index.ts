@@ -13,4 +13,4 @@ export const config = {
     username: process.env.DB_USERNAME || 'postgres',
     password: process.env.DB_PASSWORD || 'pgpass',
   },
-}
+};
