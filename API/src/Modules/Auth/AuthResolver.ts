@@ -1,5 +1,13 @@
 // API/Modules/Auth/AuthResolver.ts
-import { Resolver, Mutation, Arg, ArgumentValidationError } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  Arg,
+  ArgumentValidationError,
+  Query,
+  Authorized,
+  Ctx,
+} from 'type-graphql';
 import { AuthResponse, RegisterResponse } from './AuthResponse';
 import {
   LoginInput,
@@ -8,9 +16,16 @@ import {
 } from './AuthInput';
 import { User } from 'API/Modules/Users/UserModel';
 import { hasSetup } from '../Utilities/hasSetup';
+import { AuthContext } from 'API/Context';
 
 @Resolver()
 export class AuthResolver {
+  @Authorized()
+  @Query(() => User)
+  async currentUser(@Ctx() { currentUser }: AuthContext): Promise<User> {
+    return currentUser;
+  }
+
   @Mutation(() => AuthResponse)
   async login(@Arg('input') { username, password }: LoginInput): Promise<
     AuthResponse
@@ -27,7 +42,7 @@ export class AuthResolver {
         },
       ]);
 
-    return { token: await user.generateToken(password) };
+    return { token: user.generateToken(password), currentUser: user };
   }
 
   @hasSetup(true)
@@ -41,7 +56,11 @@ export class AuthResolver {
     const user = User.create({ username, email });
     await user.setPassword(password);
     await user.save();
-    return { success: true };
+    return {
+      success: true,
+      currentUser: user,
+      token: user.generateToken(password),
+    };
   }
 
   @Mutation(() => Boolean)

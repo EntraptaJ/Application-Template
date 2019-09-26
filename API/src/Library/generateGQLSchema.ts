@@ -2,6 +2,7 @@
 import { GraphQLSchema } from 'graphql';
 import { resolve } from 'path';
 import { buildSchema } from 'type-graphql';
+import { authChecker } from 'API/Modules/Auth/AuthChecker';
 
 export function generateGQLSchema(): Promise<GraphQLSchema> {
   return buildSchema({
@@ -9,5 +10,6 @@ export function generateGQLSchema(): Promise<GraphQLSchema> {
       resolve(`${__dirname}/../Modules/**/*Resolver.ts`),
       resolve(`${__dirname}/../Modules/**/*Resolver.js`),
     ],
+    authChecker,
   });
 }
