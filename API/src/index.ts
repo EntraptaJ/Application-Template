@@ -3,11 +3,14 @@ import './Setup';
 import Koa from 'koa';
 import KoaRouter from '@koa/router';
 import { ApolloServer } from 'apollo-server-koa';
-import { generateGQLSchema } from './Library/generateGQLSchema';
+import { generateGQLSchema } from 'API/Library/generateGQLSchema';
+import { ensureDbConnection } from 'API/Library/getDbConnection';
 
 async function startAPI(): Promise<void> {
   const server = new Koa();
   const serverRouter = new KoaRouter();
+  const dbConnection = ensureDbConnection()
+
   const apiServer = new ApolloServer({
     playground: true,
     introspection: true,
@@ -18,6 +21,7 @@ async function startAPI(): Promise<void> {
 
   server.use(serverRouter.routes()).use(serverRouter.allowedMethods());
   const httpServer = await server.listen(80);
+  await dbConnection
   console.log(httpServer.connections);
 }
 

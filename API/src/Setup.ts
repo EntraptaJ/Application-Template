@@ -1,6 +1,7 @@
 // API/src/alias.ts
+import 'reflect-metadata'
 import alias from 'module-alias'
 import { resolve } from 'path'
-import 'reflect-metadata'
+
 
 alias.addAlias('API', resolve(__dirname))

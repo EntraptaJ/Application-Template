@@ -12,7 +12,16 @@ services:
       dockerfile: 'Dockerfile.dev'
     image: 'applicationtemplate'
     environment:
-      - TEST=TEST
+      DB_HOST: database
+      DB_PASSWORD: pgpass
     volumes:
       - './API:/development'
-  
+  database:
+    image: postgres:11-alpine
+    volumes:
+      - databaseData:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: application
+volumes:
+  databaseData:
