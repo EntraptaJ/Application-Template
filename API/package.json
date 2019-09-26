@@ -11,6 +11,24 @@
     "prettier": "prettier -c src/**/*.ts",
     "lint": "eslint ./src/*.ts"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^API/(.*)$": "<rootDir>/src/$1"
+    },
+    "testRegex": ".*(test|spec)\\.ts",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
@@ -53,25 +71,6 @@
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.5",
     "typeorm": "^0.2.19"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(t|j)sx?$": "ts-jest"
-    },
-    "testEnvironment": "node",
-    "moduleNameMapper": {
-      "^API/(.*)$": "<rootDir>/src/$1"
-    },
-    "globalSetup": "<rootDir>/src/testSetup.ts",
-    "testRegex": ".*(test|spec)\\.ts",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   },
   "prettier": {
     "singleQuote": true,
