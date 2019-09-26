@@ -20,6 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: KristianFJones/npm-run-action@master
+        env:
+          DB_HOST: postgres
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           scriptName: "test"
