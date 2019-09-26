@@ -1,5 +1,6 @@
 name: Code Quality
 on: pull_request
+
 jobs:
   Test:
     name: Testing
