@@ -19,11 +19,9 @@ export class User extends BaseEntity {
   @Column('varchar')
   username: string;
 
-  @Field()
   @Column('varchar')
   email: string;
 
-  @Field(() => [UserRole])
   @Column({
     array: true,
     enum: UserRole,

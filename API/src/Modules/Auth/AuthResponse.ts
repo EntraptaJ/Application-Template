@@ -1,14 +1,14 @@
 // API/Modules/Auth/AuthResponse.ts
 import { ObjectType, Field } from 'type-graphql';
-import { User } from '../Users/UserModel';
+import { CurrentUser } from './CurrentUser';
 
 @ObjectType()
 export class AuthResponse {
   @Field(() => String)
   token: Promise<string>;
 
-  @Field(() => User)
-  currentUser: User;
+  @Field(() => CurrentUser)
+  currentUser: CurrentUser;
 }
 
 @ObjectType()
@@ -19,6 +19,6 @@ export class RegisterResponse {
   @Field(() => String)
   token: Promise<string>;
 
-  @Field(() => User)
-  currentUser: User;
+  @Field(() => CurrentUser)
+  currentUser: CurrentUser;
 }
