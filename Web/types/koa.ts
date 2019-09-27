@@ -1,7 +1,7 @@
-import { Cookie } from 'universal-cookie';
+import Cookies from 'universal-cookie'
 
 declare module 'koa' {
   interface BaseRequest {
-    universalCookies: any;
+    universalCookies: Cookies;
   }
 }

@@ -24,7 +24,6 @@ export function ScriptTags({ sources }: ScriptTagsProps): React.ReactElement {
         .filter(
           ({ type, preloadOnly }) => type === SourceType.SCRIPT && !preloadOnly,
         )
-        .reverse()
         .map(({ src }, index) => (
           <script async type='text/javascript' key={index} src={src} />
         ))}

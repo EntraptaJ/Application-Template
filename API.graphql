@@ -45,6 +45,7 @@ type Query {
   hasSetup: Boolean!
   users: [User!]!
   utilities: [Utility!]!
+  helloWorld: String!
 }
 
 input RegisterInput {

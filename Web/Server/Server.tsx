@@ -3,6 +3,7 @@ import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
 import { CookiesProvider } from 'react-cookie';
 import React, { createElement } from 'react';
+import { getDataFromTree } from '@apollo/react-ssr';
 import { renderToNodeStream, renderToString } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import { App } from 'UI/App';
@@ -10,14 +11,22 @@ import {
   ImportItem,
   ImportProvider,
 } from 'UI/Components/Providers/ImportProvider';
-import { renderHeadStream } from './Head';
-import { renderScriptTags, Source, SourceType } from './Sources';
+import { renderHeadStream } from 'Server/Head';
+import { renderScriptTags, Source, SourceType } from 'Server/Sources';
 import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
 import prepass from 'react-ssr-prepass';
+import { AppConfiguration } from 'Server/Config';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { renderAppStateScriptStreams } from 'Server/State';
+import { ApolloProvider } from 'UI/Components/Providers/ApolloProvider';
+import { ConfigProvider } from 'UI/Components/Providers/ConfigProvider';
 
 const manifestFile = `dist/public/parcel-manifest.json`;
 
-export async function uiServer(ctx: Context): Promise<void> {
+export async function uiServer(
+  ctx: Context,
+  config: AppConfiguration,
+): Promise<void> {
   const cookies = ctx.request.universalCookies;
   ctx.respond = false;
   ctx.status = 200;
@@ -48,14 +57,21 @@ export async function uiServer(ctx: Context): Promise<void> {
 
   const imports: ImportItem[] = [];
   const context: StaticRouterContext = {};
+
   const sheets = new ServerStyleSheets();
+
+  const cache = new InMemoryCache();
 
   const AppComponent = createElement(() => (
     <StaticRouter location={ctx.url} context={context}>
       <ImportProvider imports={imports}>
-        <CookiesProvider cookies={cookies}>
-          <App />
-        </CookiesProvider>
+        <ConfigProvider {...config}>
+          <CookiesProvider cookies={cookies}>
+            <ApolloProvider cache={cache}>
+              <App />
+            </ApolloProvider>
+          </CookiesProvider>
+        </ConfigProvider>
       </ImportProvider>
     </StaticRouter>
   ));
@@ -67,11 +83,17 @@ export async function uiServer(ctx: Context): Promise<void> {
     initialSources.push({ type: SourceType.SCRIPT, src: parcelManifest[path] });
   }
 
-  const appStream = renderToNodeStream(AppComponent);
-  renderToString(sheets.collect(AppComponent));
+  const appStream = renderToNodeStream(sheets.collect(AppComponent));
+  await getDataFromTree(sheets.collect(AppComponent));
+
   const headStream = renderHeadStream({ sources: initialSources, sheets });
 
   const scriptStream = renderScriptTags({ sources: initialSources });
+  const stateScriptStream = renderAppStateScriptStreams({
+    CONFIG: config,
+    PROPS: {},
+    APOLLO_STATE: cache.extract(),
+  });
 
   headStream.pipe(
     ctx.res,
@@ -88,6 +110,14 @@ export async function uiServer(ctx: Context): Promise<void> {
 
   appStream.on('end', () => {
     ctx.res.write('</div>');
+
+    stateScriptStream.pipe(
+      ctx.res,
+      { end: false },
+    );
+  });
+
+  stateScriptStream.on('end', () => {
     scriptStream.pipe(
       ctx.res,
       { end: false },

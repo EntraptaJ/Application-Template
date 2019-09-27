@@ -1,6 +1,9 @@
-import 'UI/Server'
+import { AppState } from 'Server/State'
 
 declare global {
+  interface Window {
+    APP_STATE: AppState;
+  }
 
   interface HotModule {
     dispose(cb: Function): void;

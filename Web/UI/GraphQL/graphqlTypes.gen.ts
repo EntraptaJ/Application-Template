@@ -80,6 +80,7 @@ export type Query = {
   hasSetup: Scalars['Boolean'],
   users: Array<User>,
   utilities: Array<Utility>,
+  helloWorld: Scalars['String'],
 };
 
 export type RegisterInput = {
@@ -142,4 +143,12 @@ export type LoginMutation = (
       & Pick<CurrentUser, 'id' | 'roles'>
     ) }
   ) }
+);
+
+export type HelloWorldQueryVariables = {};
+
+
+export type HelloWorldQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'helloWorld'>
 );

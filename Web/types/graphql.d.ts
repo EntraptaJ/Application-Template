@@ -7,3 +7,12 @@ declare module '*/login.graphql' {
   export default defaultDocument;
 }
     
+
+declare module '*/helloWorld.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const HelloWorld: DocumentNode;
+
+  export default defaultDocument;
+}
+    

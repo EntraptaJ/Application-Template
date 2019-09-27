@@ -11,6 +11,8 @@ import {
   ImportProvider,
 } from './Components/Providers/ImportProvider';
 import { App } from './App';
+import { ConfigProvider } from './Components/Providers/ConfigProvider';
+import { ApolloProvider } from './Components/Providers/ApolloProvider';
 
 export let imports: ImportItem[] = [];
 
@@ -21,12 +23,14 @@ export function clearImports() {
 const render = async (
   renderFunction: import('react-dom').Renderer,
 ): Promise<void> => {
-
   const Component = React.createElement(() => (
     <BrowserRouter>
       <ImportProvider imports={imports}>
+        <ConfigProvider {...window.APP_STATE.CONFIG}></ConfigProvider>
         <CookiesProvider>
-          <App />
+          <ApolloProvider>
+            <App />
+          </ApolloProvider>
         </CookiesProvider>
       </ImportProvider>
     </BrowserRouter>

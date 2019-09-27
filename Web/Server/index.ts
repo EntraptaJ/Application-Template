@@ -14,18 +14,18 @@ async function startWeb(): Promise<void> {
   const server = new Koa();
   const router = new KoaRouter();
 
-  server.use(require('universal-cookie-koa')())
+  server.use(require('universal-cookie-koa')());
 
   router.get('*', serve('dist/public'));
 
-  router.get('*', async ctx => {
+  router.get('*', async (ctx) => {
     let { uiServer } = await loadServer();
     if (process.env.NODE_ENV !== 'production') {
       const chokidar = await import('chokidar');
       chokidar
         .watch(resolve('dist/server/*'), {
           ignoreInitial: true,
-          awaitWriteFinish: { stabilityThreshold: 100 }
+          awaitWriteFinish: { stabilityThreshold: 100 },
         })
         .on('all', async () => {
           process.stdout.write('Reloading UI Server...');
@@ -34,16 +34,15 @@ async function startWeb(): Promise<void> {
         });
     }
     try {
-      return uiServer(ctx);
+      return uiServer(ctx, { baseUrl: 'http://localhost' });
     } catch {
-      ctx.body = 'Error'
+      ctx.body = 'Error';
     }
-    
   });
 
-  server.use(router.routes()).use(router.allowedMethods())
+  server.use(router.routes()).use(router.allowedMethods());
 
   server.listen(81, () => console.log(`Server listening on port 80`));
 }
 
-startWeb()
+startWeb();
