@@ -1,25 +1,22 @@
 // Web/Server/Server.tsx
+import { getDataFromTree } from '@apollo/react-ssr';
+import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
-import { CookiesProvider } from 'react-cookie';
 import React, { createElement } from 'react';
-import { getDataFromTree } from '@apollo/react-ssr';
-import { renderToNodeStream, renderToString } from 'react-dom/server';
+import { CookiesProvider } from 'react-cookie';
+import { renderToNodeStream } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
-import { App } from 'UI/App';
-import {
-  ImportItem,
-  ImportProvider,
-} from 'UI/Components/Providers/ImportProvider';
-import { renderHeadStream } from 'Server/Head';
-import { renderScriptTags, Source, SourceType } from 'Server/Sources';
-import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
 import prepass from 'react-ssr-prepass';
 import { AppConfiguration } from 'Server/Config';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { renderHeadStream } from 'Server/Head';
+import { renderScriptTags, Source, SourceType } from 'Server/Sources';
 import { renderAppStateScriptStreams } from 'Server/State';
+import { App } from 'UI/App';
 import { ApolloProvider } from 'UI/Components/Providers/ApolloProvider';
 import { ConfigProvider } from 'UI/Components/Providers/ConfigProvider';
+import { ImportItem, ImportProvider } from 'UI/Components/Providers/ImportProvider';
 
 const manifestFile = `dist/public/parcel-manifest.json`;
 

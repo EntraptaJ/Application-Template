@@ -4,6 +4,7 @@ import KoaRouter from '@koa/router';
 import serve from 'koa-static';
 import { readJSON } from 'fs-extra';
 import { resolve } from 'path';
+import universalCookies from 'universal-cookie-koa'
 
 const loadServer = async (): Promise<typeof import('./server')> => {
   const manifest = await readJSON(`dist/server/parcel-manifest.json`);
@@ -14,7 +15,7 @@ async function startWeb(): Promise<void> {
   const server = new Koa();
   const router = new KoaRouter();
 
-  server.use(require('universal-cookie-koa')());
+  server.use(universalCookies());
 
   router.get('*', serve('dist/public'));
 

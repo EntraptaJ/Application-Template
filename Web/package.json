@@ -7,7 +7,9 @@
   "scripts": {
     "build": "ts-node --project bin/tsconfig.json bin/build",
     "dev": "ts-node --project bin/tsconfig.json bin/watch",
-    "gen": "graphql-codegen --config graphql-codegen.yml"
+    "gen": "graphql-codegen --config graphql-codegen.yml",
+    "prettier": "prettier -c src/**/*.ts",
+    "lint": "eslint ./**/*.ts"
   },
   "browserslist": [
     "last 1 Chrome version"
@@ -22,6 +24,36 @@
     "arrowParens": "always",
     "semi": true,
     "jsxSingleQuote": true
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "react",
+      "react-hooks"
+    ],
+    "extends": [
+      "standard",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/standard",
+      "prettier/@typescript-eslint"
+    ],
+    "rules": {
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        {
+          "allowExpressions": true
+        }
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "none"
+        }
+      ]
+    }
   },
   "author": "",
   "license": "ISC",
@@ -72,12 +104,25 @@
     "@types/react-dom": "^16.9.1",
     "@types/react-router": "^5.1.0",
     "@types/react-router-dom": "^5.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
     "babel-plugin-module-resolver": "^3.2.0",
     "chokidar": "^3.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^2.1.0",
+    "eslint-plugin-standard": "^4.0.1",
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-assets-list": "^1.7.1",
     "parcel-plugin-bundle-manifest": "^0.2.0",
     "parcel-plugin-compress": "^1.0.10",
+    "prettier": "^1.18.2",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
   }
