@@ -19,11 +19,11 @@ function Route({
   imported,
   children,
   path,
-  exact
+  exact,
 }: PropsWithChildren<RouteProps>): React.ReactElement {
   const Component = useImport({
     ...imported,
-    Loader: () => <div>Loading</div>
+    Loader: () => <div>Loading</div>,
   });
 
   if (children)
@@ -45,7 +45,7 @@ function AppRouter(): ReactElement {
       <Route
         imported={{
           imported: import('UI/Routes/Home'),
-          path: 'Routes/Home/index.tsx'
+          path: 'Routes/Home/index.tsx',
         }}
         path={'/'}
         exact={true}
@@ -53,7 +53,7 @@ function AppRouter(): ReactElement {
       <Route
         imported={{
           imported: import('UI/Routes/Test'),
-          path: 'Routes/Test/index.tsx'
+          path: 'Routes/Test/index.tsx',
         }}
         path={'/Test'}
         exact={false}
@@ -61,7 +61,7 @@ function AppRouter(): ReactElement {
       <Route
         imported={{
           imported: import('UI/Routes/Example'),
-          path: 'Routes/Example/index.tsx'
+          path: 'Routes/Example/index.tsx',
         }}
         path={`/Example`}
         exact={false}

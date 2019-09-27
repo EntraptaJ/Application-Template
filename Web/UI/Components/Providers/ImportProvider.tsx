@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useContext,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import { useLocation } from 'react-router';
 
@@ -29,7 +29,7 @@ interface Context {
 
 const ImportContext = createContext<Context>({
   imports: [],
-  addImport: t => t
+  addImport: (t) => t,
 });
 
 interface ImportProviderProps {
@@ -38,12 +38,12 @@ interface ImportProviderProps {
 
 export function ImportProvider({
   children,
-  imports
+  imports,
 }: PropsWithChildren<ImportProviderProps>): React.ReactElement {
   const addImport: AddImport = useCallback(
-    newImported => {
+    (newImported) => {
       const existingImport = imports.find(
-        ({ path }) => path === newImported.path
+        ({ path }) => path === newImported.path,
       );
 
       if (existingImport) return imports.indexOf(existingImport);
@@ -52,7 +52,7 @@ export function ImportProvider({
         return imports.indexOf(newImported);
       }
     },
-    [imports]
+    [imports],
   );
 
   return (
@@ -71,7 +71,7 @@ interface UseImportInput<T> {
 export function useImport<T extends any>({
   imported,
   path,
-  Loader
+  Loader,
 }: UseImportInput<T>): T {
   const location = useLocation();
   const { addImport } = useContext(ImportContext);
@@ -80,7 +80,7 @@ export function useImport<T extends any>({
   const importsIndex = addImport({ path, promise: imported });
   const ourImport = useMemo(() => imports[importsIndex], [
     importsIndex,
-    imports
+    imports,
   ]);
 
   useMemo(async () => {
