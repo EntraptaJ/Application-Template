@@ -5,11 +5,17 @@ import { theme } from 'UI/Components/Styles/Theme';
 import AppRouter from './Components/Router';
 import { AppBar } from './Components/Styles/AppBar';
 import { CssBaseline } from '@material-ui/core';
+import { NavProvider } from './Components/Providers/NavProvider';
+import { NavDrawer } from './Components/Styles/NavDrawer';
 
 export function App(): React.ReactElement {
   return (
     <ThemeProvider theme={theme}>
-      <AppBar />
+      <NavProvider>
+        <AppBar />
+        <NavDrawer />
+      </NavProvider>
+
       <main
         style={{
           height: '100%',

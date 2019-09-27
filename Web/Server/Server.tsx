@@ -17,9 +17,6 @@ import prepass from 'react-ssr-prepass';
 
 const manifestFile = `dist/public/parcel-manifest.json`;
 
-const timeout = (ms: number): Promise<void> =>
-  new Promise((resolve) => setTimeout(resolve, ms));
-
 export async function uiServer(ctx: Context): Promise<void> {
   ctx.respond = false;
   ctx.status = 200;
@@ -59,8 +56,6 @@ export async function uiServer(ctx: Context): Promise<void> {
       </ImportProvider>
     </StaticRouter>
   ));
-
-  await getDataFromTree(AppComponent);
 
   await prepass(AppComponent);
 
