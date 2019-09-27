@@ -16,13 +16,6 @@ services:
       DB_PASSWORD: pgpass
     volumes:
       - './API:/development'
-  ui:
-    build:
-      context: './Web'
-      dockerfile: 'Dockerfile.dev'
-    image: 'applicationtemplateweb'
-    volumes:
-      - './Web:/development'
   database:
     image: postgres:11-alpine
     volumes:

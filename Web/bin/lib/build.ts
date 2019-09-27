@@ -9,15 +9,15 @@ export const build = async (watch: boolean = false): Promise<void> => {
   if (await pathExists('public')) await copy('public', 'dist/public');
 
   await Promise.all([copy('package.json', 'dist/package.json'), copy('package-lock.json', 'dist/package-lock.json')]);
-
-  process.env['BABEL_ENV'] = 'client';
+  
   const bundler = new ParcelBundler('UI/Client.tsx', {
     outDir: 'dist/public',
     watch,
     target: 'browser',
     contentHash: true,
     sourceMaps: false,
-    cache: false
+    cache: false,
+    hmrPort: 5859
   });
 
   await bundler.bundle();

@@ -7,7 +7,6 @@ import { resolve } from 'path';
 
 const loadServer = async (): Promise<typeof import('./server')> => {
   const manifest = await readJSON(`dist/server/parcel-manifest.json`);
-  console.log(`${__dirname}${manifest['Server.tsx']}`)
   return require(`${__dirname}${manifest['Server.tsx']}`);
 };
 
@@ -42,7 +41,7 @@ async function startWeb(): Promise<void> {
 
   server.use(router.routes()).use(router.allowedMethods())
 
-  server.listen(80, () => console.log(`Server listening on port 80`));
+  server.listen(81, () => console.log(`Server listening on port 80`));
 }
 
 startWeb()
