@@ -1,11 +1,13 @@
 // Web/UI/Components/Providers/ImportContext.tsx
 import React, {
-  useMemo,
-  useContext,
   createContext,
-  useState,
-  PropsWithChildren
+  PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+  useState
 } from 'react';
+import { useLocation } from 'react-router';
 
 interface ModuleImported<T> {
   default: T;
@@ -38,12 +40,20 @@ export function ImportProvider({
   children,
   imports
 }: PropsWithChildren<ImportProviderProps>): React.ReactElement {
-  const addImport: AddImport = imported => {
-    const existingPath = imports.find(({ path }) => path === imported.path);
-    
-    if (existingPath) return imports.indexOf(existingPath);
-    else return imports.push(imported) - 1;
-  };
+  const addImport: AddImport = useCallback(
+    newImported => {
+      const existingImport = imports.find(
+        ({ path }) => path === newImported.path
+      );
+
+      if (existingImport) return imports.indexOf(existingImport);
+      else {
+        imports.push(newImported);
+        return imports.indexOf(newImported);
+      }
+    },
+    [imports]
+  );
 
   return (
     <ImportContext.Provider value={{ imports, addImport }}>
@@ -63,34 +73,31 @@ export function useImport<T extends any>({
   path,
   Loader
 }: UseImportInput<T>): T {
+  const location = useLocation();
   const { addImport } = useContext(ImportContext);
-  const [results, setResults] = useState<T>();
   const { imports } = useContext(ImportContext);
+  const [result, setResult] = useState<T>();
   const importsIndex = addImport({ path, promise: imported });
-  const ourImport = useMemo(() => {
-    return imports[importsIndex];
-  }, [importsIndex]);
+  const ourImport = useMemo(() => imports[importsIndex], [
+    importsIndex,
+    imports
+  ]);
 
   useMemo(async () => {
-    if (
-      typeof results !== 'undefined' ||
-      typeof imports[importsIndex].promise === 'undefined'
-    )
-      return;
+    if (typeof imports[importsIndex].promise === 'undefined') return;
+    if (typeof imports[importsIndex].promise === 'function') return;
 
     imports[importsIndex].promise = (await imports[importsIndex]
       .promise).default;
+    setResult(ourImport.promise);
+  }, [importsIndex, imports, location]);
 
-    setResults(imports[importsIndex].promise);
-  }, [imported, importsIndex]);
-
-  return useMemo(() => {
-    if (
-      (ourImport.promise && ourImport.promise.executor) ||
-      Promise.resolve(ourImport.promise) == ourImport.promise ||
-      typeof ourImport.promise === 'undefined'
-    )
-      return Loader;
-    else return ourImport.promise;
-  }, [ourImport]);
+  if (
+    (ourImport.promise && ourImport.promise.executor) ||
+    Promise.resolve(ourImport.promise) == ourImport.promise ||
+    typeof ourImport.promise === 'undefined'
+  ) {
+    if (result) return () => result;
+    return Loader;
+  } else return ourImport.promise;
 }

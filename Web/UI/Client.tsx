@@ -1,25 +1,31 @@
 // Web/UI/Client.tsx
+import clearModule from 'clear-module';
 import React, { useMemo } from 'react';
 import { hydrate, render as ReactDOMRender } from 'react-dom';
-import {
-  ImportProvider,
-  ImportItem
-} from './Components/Providers/ImportProvider';
-import clearModule from 'clear-module';
-import { usePromise } from './Components/Providers/usePromise';
-import prepass from 'react-ssr-prepass';
 import { BrowserRouter } from 'react-router-dom';
+import prepass from 'react-ssr-prepass';
+import {
+  ImportItem,
+  ImportProvider
+} from './Components/Providers/ImportProvider';
+import { usePromise } from './Components/Providers/usePromise';
 
-let imports: ImportItem[] = [];
+export let imports: ImportItem[] = [];
+
+export function clearImports() {
+  imports = [];
+}
 
 async function CoreApp(): Promise<React.ReactElement> {
   const { App } = await import('UI/App');
 
-  await prepass(    <BrowserRouter>
-    <ImportProvider imports={imports}>
-      <App />
-    </ImportProvider>
-  </BrowserRouter>)
+  await prepass(
+    <BrowserRouter>
+      <ImportProvider imports={imports}>
+        <App />
+      </ImportProvider>
+    </BrowserRouter>
+  );
 
   return (
     <BrowserRouter>
