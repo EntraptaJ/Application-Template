@@ -9,6 +9,6 @@ export function BaseButton(props: BaseButtonProps): React.ReactElement {
     path: 'Components/Styles/Button/BaseButton/BaseButtonCore.tsx',
     Loader: () => <div>Loading</div>,
   });
-  console.log(Button);
+  
   return <Button {...props} />;
 }

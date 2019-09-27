@@ -22,6 +22,10 @@ export function Head({ sources, sheets }: HeadProps): React.ReactElement {
   return (
     <head>
       <title>Hello World</title>
+      <meta
+        name='viewport'
+        content='width=device-width, initial-scale=1, maximum-scale=1'
+      />
       <style
         id='jss-server-side'
         dangerouslySetInnerHTML={{ __html: sheets.toString() }}

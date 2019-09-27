@@ -14,6 +14,8 @@ async function startWeb(): Promise<void> {
   const server = new Koa();
   const router = new KoaRouter();
 
+  server.use(require('universal-cookie-koa')())
+
   router.get('*', serve('dist/public'));
 
   router.get('*', async ctx => {

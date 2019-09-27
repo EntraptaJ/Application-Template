@@ -1,5 +1,5 @@
 // Web/UI/Components/Providers/usePromise.tsx
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo } from 'react';
 
 export function usePromise<T extends any>(
   promise: () => Promise<T>

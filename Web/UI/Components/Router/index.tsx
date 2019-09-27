@@ -1,73 +1,23 @@
 // Web/UI/Components/Router/index.tsx
 // UI/UI/Components/Router/index.tsx
-import React, { PropsWithChildren, ReactElement } from 'react';
-import { Route as RouteComponent, Switch } from 'react-router-dom';
-import { useImport } from '../Providers/ImportProvider';
+import React, { ReactElement } from 'react';
+import { Switch } from 'react-router-dom';
+import { Route } from './Route';
+import { AppRoute } from './AppRoute';
+import { AppRoutes } from './AppRoutes';
 
-interface ImportedRouteInput {
-  imported: Promise<{ default: any }>;
-  path: string;
-}
-
-interface RouteProps {
-  imported: ImportedRouteInput;
-  path: string;
-  exact: boolean;
-}
-
-function Route({
-  imported,
-  children,
-  path,
-  exact,
-}: PropsWithChildren<RouteProps>): React.ReactElement {
-  const Component = useImport({
-    ...imported,
-    Loader: () => <div>Loading</div>,
-  });
-
-  if (children)
-    return <RouteComponent key={path} path={path} render={() => children} />;
-  else
-    return (
-      <RouteComponent
-        exact={exact}
-        key={path}
-        path={path}
-        component={Component}
-      />
-    );
+function generateRoutes(routes: AppRoute[], parent: string = '/'): React.ReactElement[] {
+  const elements: React.ReactElement[] = [];
+  for (const { path, children, ...route } of routes) {
+    const routePath = `${parent}${path}`
+    if (children) elements.push(<Route key={route.to} path={routePath} {...route}>{generateRoutes(children, routePath)}</Route>)
+    else elements.push(<Route key={route.to} path={routePath} {...route} />);
+  }
+  return elements;
 }
 
 function AppRouter(): ReactElement {
-  return (
-    <Switch>
-      <Route
-        imported={{
-          imported: import('UI/Routes/Home'),
-          path: 'Routes/Home/index.tsx',
-        }}
-        path={'/'}
-        exact={true}
-      />
-      <Route
-        imported={{
-          imported: import('UI/Routes/Test'),
-          path: 'Routes/Test/index.tsx',
-        }}
-        path={'/Test'}
-        exact={false}
-      />
-      <Route
-        imported={{
-          imported: import('UI/Routes/Example'),
-          path: 'Routes/Example/index.tsx',
-        }}
-        path={`/Example`}
-        exact={false}
-      />
-    </Switch>
-  );
+  return <Switch>{...generateRoutes(AppRoutes)}</Switch>;
 }
 
 export default AppRouter;

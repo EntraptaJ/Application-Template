@@ -86,10 +86,10 @@ export function useImport<T extends any>({
   useMemo(async () => {
     if (typeof imports[importsIndex].promise === 'undefined') return;
     if (typeof imports[importsIndex].promise === 'function') return;
-
     imports[importsIndex].promise = (await imports[importsIndex]
       .promise).default;
-    setResult(ourImport.promise);
+
+    setResult(() => imports[importsIndex].promise)
   }, [importsIndex, imports, location]);
 
   if (
@@ -97,7 +97,7 @@ export function useImport<T extends any>({
     Promise.resolve(ourImport.promise) == ourImport.promise ||
     typeof ourImport.promise === 'undefined'
   ) {
-    if (result) return () => result;
+    if (result) return result;
     return Loader;
   } else return ourImport.promise;
 }

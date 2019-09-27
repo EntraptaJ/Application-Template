@@ -1,14 +1,15 @@
 // Web/UI/Components/Providers/NavProvider.tsx
 import React, {
   createContext,
-  PropsWithChildren,
   Dispatch,
+  PropsWithChildren,
   SetStateAction,
-  useState,
-  useMemo,
-  useContext,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
+import { useLocation } from 'react-router';
 
 interface Context {
   navOpen: boolean;
@@ -25,11 +26,16 @@ const NavContext = createContext<Context>({
 export function NavProvider({
   children,
 }: PropsWithChildren<{}>): React.ReactElement {
+  const location = useLocation();
   const [navOpen, setNavOpen] = useState<boolean>();
 
   const toggleNav = useCallback(() => setNavOpen((navOpen) => !navOpen), [
     setNavOpen,
   ]);
+
+  useEffect(() => {
+    if (navOpen) toggleNav();
+  }, [location]);
 
   return (
     <NavContext.Provider value={{ navOpen, setNavOpen, toggleNav }}>

@@ -1,7 +1,7 @@
 // Web/Server/Server.tsx
-import { getDataFromTree } from '@apollo/react-ssr';
 import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
+import { CookiesProvider } from 'react-cookie';
 import React, { createElement } from 'react';
 import { renderToNodeStream, renderToString } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
@@ -18,6 +18,7 @@ import prepass from 'react-ssr-prepass';
 const manifestFile = `dist/public/parcel-manifest.json`;
 
 export async function uiServer(ctx: Context): Promise<void> {
+  const cookies = ctx.request.universalCookies;
   ctx.respond = false;
   ctx.status = 200;
   ctx.res.write('<!doctype html>\n<html>');
@@ -52,7 +53,9 @@ export async function uiServer(ctx: Context): Promise<void> {
   const AppComponent = createElement(() => (
     <StaticRouter location={ctx.url} context={context}>
       <ImportProvider imports={imports}>
-        <App />
+        <CookiesProvider cookies={cookies}>
+          <App />
+        </CookiesProvider>
       </ImportProvider>
     </StaticRouter>
   ));
