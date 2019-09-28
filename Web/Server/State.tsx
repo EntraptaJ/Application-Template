@@ -5,7 +5,7 @@ import { AppConfiguration } from 'Server/Config';
 import { renderToNodeStream } from 'react-dom/server';
 
 export interface AppState {
-  PROPS: any;
+  PROPS: {};
   APOLLO_STATE: NormalizedCacheObject;
   CONFIG: AppConfiguration;
 }
@@ -27,6 +27,6 @@ export function AppStateScript({
   );
 }
 
-export function renderAppStateScriptStreams(state: AppState) {
+export function renderAppStateScriptStreams(state: AppState): NodeJS.ReadableStream {
   return renderToNodeStream(<AppStateScript state={state} />);
 }

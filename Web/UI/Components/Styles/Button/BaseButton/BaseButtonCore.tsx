@@ -1,5 +1,5 @@
 // Web/UI/Components/Styles/Button/BaseButton/BaseButtonCore.tsx
-import React, { PropsWithChildren, CSSProperties } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Button, { ButtonProps } from '@material-ui/core/Button';
 
 export interface BaseButtonProps extends ButtonProps {

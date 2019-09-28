@@ -9,12 +9,12 @@ export default function ExampleRoute(): React.ReactElement {
   const toggleEnabled = useCallback(() => setEnabled((state) => !state), []);
 
   return (
-    <div>
+    <>
       <Typography variant='h4'>Example Route</Typography>
       <Typography variant='h2' onClick={toggleEnabled}>
         {enabled ? 'True' : 'False'}
       </Typography>
       <Typography variant='h4'>{data ? data.helloWorld : 'Loading'}</Typography>
-    </div>
+    </>
   );
 }

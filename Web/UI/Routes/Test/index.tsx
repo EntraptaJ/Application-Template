@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
 export default function TestRoute(): React.ReactElement {
-  let test = 1;
+  const test = 1;
   const handleClick = useCallback(() => {
     console.log(`I've been clicked\nTest: ${test}`);
   }, []);

@@ -2,7 +2,7 @@
 import { copy, mkdir, remove, pathExists } from 'fs-extra';
 import ParcelBundler from 'parcel-bundler';
 
-export const build = async (watch: boolean = false): Promise<void> => {
+export const build = async (watch = false): Promise<void> => {
   await remove('dist');
   await mkdir('dist');
 
@@ -13,7 +13,7 @@ export const build = async (watch: boolean = false): Promise<void> => {
     copy('package-lock.json', 'dist/package-lock.json'),
   ]);
 
-  const bundler = new ParcelBundler('UI/Client.tsx', {
+  const bundler = new ParcelBundler('UI/index.ts', {
     outDir: 'dist/public',
     watch,
     target: 'browser',
@@ -24,7 +24,7 @@ export const build = async (watch: boolean = false): Promise<void> => {
 
   await bundler.bundle();
 
-  process.env['BABEL_ENV'] = 'server';
+  process.env.BABEL_ENV = 'server';
   const serverBundler = new ParcelBundler(
     ['Server/index.ts', 'Server/Server.urls'],
     {

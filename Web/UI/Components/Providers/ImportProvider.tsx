@@ -7,17 +7,18 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { useLocation } from 'react-router';
 
-interface ModuleImported<T> {
-  default: T;
+type ReactComponent = () => React.ReactElement;
+
+interface ReactModule {
+  default: ReactComponent;
 }
 
-type ModuleImport<T> = Promise<ModuleImported<T>>;
+type ModuleImport = Promise<ReactModule>;
 
 export type ImportItem = {
   path: string;
-  promise: ModuleImport<any> | ModuleImported<any>;
+  promise: ModuleImport | ReactComponent;
 };
 
 type AddImport = <T extends ImportItem>(imported: T) => number;
@@ -29,7 +30,7 @@ interface Context {
 
 const ImportContext = createContext<Context>({
   imports: [],
-  addImport: (t) => t,
+  addImport: (t) => 1,
 });
 
 interface ImportProviderProps {
@@ -62,21 +63,20 @@ export function ImportProvider({
   );
 }
 
-interface UseImportInput<T> {
-  imported: Promise<{ default: T }>;
+interface UseImportInput {
+  imported: Promise<ReactModule>;
   path: string;
-  Loader: () => React.ReactElement;
+  Loader: ReactComponent;
 }
 
-export function useImport<T extends any>({
+export function useImport({
   imported,
   path,
   Loader,
-}: UseImportInput<T>): T {
-  const location = useLocation();
+}: UseImportInput): ReactComponent {
   const { addImport } = useContext(ImportContext);
   const { imports } = useContext(ImportContext);
-  const [result, setResult] = useState<T>();
+  const [result, setResult] = useState<ReactModule>();
   const importsIndex = addImport({ path, promise: imported });
   const ourImport = useMemo(() => imports[importsIndex], [
     importsIndex,
@@ -89,15 +89,17 @@ export function useImport<T extends any>({
     imports[importsIndex].promise = (await imports[importsIndex]
       .promise).default;
 
-    setResult(() => imports[importsIndex].promise)
-  }, [importsIndex, imports, location]);
+    setResult(() => imports[importsIndex].promise);
+  }, [importsIndex, imports]);
 
-  if (
-    (ourImport.promise && ourImport.promise.executor) ||
-    Promise.resolve(ourImport.promise) == ourImport.promise ||
-    typeof ourImport.promise === 'undefined'
-  ) {
-    if (result) return result;
-    return Loader;
-  } else return ourImport.promise;
+  return useMemo(() => {
+    if (
+      (ourImport.promise && ourImport.promise.executor) ||
+      Promise.resolve(ourImport.promise) == ourImport.promise ||
+      typeof ourImport.promise === 'undefined'
+    ) {
+      if (result) return result;
+      return Loader;
+    } else return ourImport.promise;
+  }, [ourImport, Loader, result]);
 }

@@ -17,8 +17,7 @@ export const theme = createMuiTheme({
   overrides: {
     MuiDrawer: {
       modal: {
-        // @ts-ignore
-        zIndex: `1200 !important` as number,
+        zIndex: `1200 !important` as unknown as number,
       },
     },
   },

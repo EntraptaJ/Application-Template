@@ -9,7 +9,7 @@ interface InitClientParams {
   baseUrl: string;
   initialState?: NormalizedCacheObject;
   token?: string;
-  cache?: ApolloCache<any>;
+  cache?: ApolloCache<NormalizedCacheObject>;
 }
 
 export function initApollo({

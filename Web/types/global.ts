@@ -3,6 +3,7 @@ import { AppState } from 'Server/State'
 declare global {
   interface Window {
     APP_STATE: AppState;
+    setImmediate: any
   }
 
   interface HotModule {

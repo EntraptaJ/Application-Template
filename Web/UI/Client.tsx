@@ -1,6 +1,4 @@
 // Web/UI/Client.tsx
-// @ts-ignore
-window.setImmediate = window.setTimeout;
 import React from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { hydrate, render as ReactDOMRender } from 'react-dom';
@@ -10,19 +8,18 @@ import {
   ImportItem,
   ImportProvider,
 } from './Components/Providers/ImportProvider';
-import { App } from './App';
 import { ConfigProvider } from './Components/Providers/ConfigProvider';
 import { ApolloProvider } from './Components/Providers/ApolloProvider';
 
+window.setImmediate = window.setTimeout;
+
 export let imports: ImportItem[] = [];
 
-export function clearImports() {
-  imports = [];
-}
-
-const render = async (
+async function render(
   renderFunction: import('react-dom').Renderer,
-): Promise<void> => {
+): Promise<void> {
+  const { App } = await import('UI/App')
+
   const Component = React.createElement(() => (
     <BrowserRouter>
       <ImportProvider imports={imports}>
@@ -36,10 +33,12 @@ const render = async (
     </BrowserRouter>
   ));
 
+
+
   await prepass(Component);
 
   renderFunction(Component, document.getElementById('app'));
-};
+}
 
 render(hydrate);
 
