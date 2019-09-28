@@ -1,6 +1,7 @@
 // Web/bin/lib/build.ts
 import { copy, mkdir, remove, pathExists } from 'fs-extra';
 import ParcelBundler from 'parcel-bundler';
+import { generateIcons } from './Icons';
 
 export const build = async (watch = false): Promise<void> => {
   await remove('dist');
@@ -13,7 +14,7 @@ export const build = async (watch = false): Promise<void> => {
     copy('package-lock.json', 'dist/package-lock.json'),
   ]);
 
-  const bundler = new ParcelBundler('UI/index.ts', {
+  const bundler = new ParcelBundler('UI/Client.tsx', {
     outDir: 'dist/public',
     watch,
     target: 'browser',
@@ -38,4 +39,5 @@ export const build = async (watch = false): Promise<void> => {
   );
 
   await serverBundler.bundle();
+  await generateIcons('Icons/main.png');
 };

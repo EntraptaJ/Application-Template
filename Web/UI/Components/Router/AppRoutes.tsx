@@ -27,7 +27,16 @@ export const AppRoutes: AppRoute[] = [
     label: 'Example',
     imported: {
       imported: import('UI/Routes/Example'),
-      path: 'Routes/Example/index.tsx'
-    }
-  }
+      path: 'Routes/Example/index.tsx',
+    },
+  },
+  {
+    path: 'Lab',
+    to: '/Lab/',
+    label: 'Lab',
+    imported: {
+      imported: import('UI/Routes/Lab'),
+      path: 'Routes/Lab/index.tsx',
+    },
+  },
 ];

@@ -33,9 +33,13 @@
       "react",
       "react-hooks"
     ],
+    "env": {
+      "browser": true,
+      "node": true
+    },
     "parserOptions": {
-      "project": "tsconfig.main.json",
-      "rootDir": "./Web/",
+      "project": "./tsconfig.main.json",
+      "tsconfigRootDir": "./Web/",
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
@@ -44,12 +48,19 @@
     "extends": [
       "standard",
       "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
       "prettier",
       "prettier/standard",
       "prettier/@typescript-eslint",
-      "plugin:react/recommended"
+      "prettier/react"
     ],
+    "globals": {
+      "Atomics": "readonly",
+      "SharedArrayBuffer": "readonly"
+    },
     "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "error",
       "@typescript-eslint/explicit-function-return-type": [
         "error",
         {
@@ -63,7 +74,8 @@
         }
       ],
       "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error"
+      "react/jsx-uses-vars": "error",
+      "@typescript-eslint/camelcase": "warn"
     }
   },
   "author": "",
@@ -71,6 +83,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "@apollo/react-ssr": "^3.1.1",
+    "@fiahfy/ico-convert": "0.0.5",
     "@koa/router": "^8.0.1",
     "@material-ui/core": "^4.4.3",
     "@material-ui/icons": "^4.4.3",
@@ -85,7 +98,9 @@
     "isomorphic-unfetch": "^3.0.0",
     "koa": "^2.8.1",
     "koa-static": "^5.0.0",
+    "module-alias": "^2.2.1",
     "notistack": "^0.9.2",
+    "png2icons": "^2.0.1",
     "react": "^16.10.0",
     "react-cookie": "^4.0.1",
     "react-dom": "^16.10.0",
@@ -93,6 +108,8 @@
     "react-router": "^5.1.0",
     "react-router-dom": "^5.1.0",
     "react-ssr-prepass": "^1.0.7",
+    "sharp": "^0.23.1",
+    "to-ico": "^1.1.5",
     "universal-cookie-koa": "^4.0.1"
   },
   "devDependencies": {
@@ -110,12 +127,15 @@
     "@types/koa": "^2.0.50",
     "@types/koa-static": "^4.0.1",
     "@types/koa__router": "^8.0.0",
+    "@types/module-alias": "^2.0.0",
     "@types/node": "^12.7.8",
     "@types/parcel-bundler": "^1.12.1",
     "@types/react": "^16.9.3",
     "@types/react-dom": "^16.9.1",
     "@types/react-router": "^5.1.0",
     "@types/react-router-dom": "^5.1.0",
+    "@types/sharp": "^0.22.3",
+    "@types/workbox-sw": "^4.2.0",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
     "@typescript-eslint/parser": "^2.3.1",
     "babel-plugin-module-resolver": "^3.2.0",
@@ -134,6 +154,7 @@
     "parcel-plugin-assets-list": "^1.7.1",
     "parcel-plugin-bundle-manifest": "^0.2.0",
     "parcel-plugin-compress": "^1.0.10",
+    "png-to-ico": "^2.0.5",
     "prettier": "^1.18.2",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"

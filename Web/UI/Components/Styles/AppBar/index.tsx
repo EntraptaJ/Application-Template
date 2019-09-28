@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { useNavState } from 'UI/Components/Providers/NavProvider';
 import { useStyles } from 'UI/Components/Styles';
 
-export function AppBar(): React.ReactElement {
+export default function AppBar(): React.ReactElement {
   const { toggleNav } = useNavState();
   const classes = useStyles({});
 
@@ -28,6 +28,12 @@ export function AppBar(): React.ReactElement {
         <div className={classes.toolbar} />
       </>
     ),
-    [],
+    [
+      classes.appBar,
+      classes.menuButton,
+      classes.toolbar,
+      classes.title,
+      toggleNav,
+    ],
   );
 }

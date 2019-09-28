@@ -3,14 +3,14 @@ import React, { useMemo } from 'react';
 import { useNavState } from 'UI/Components/Providers/NavProvider';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { useStyles } from 'UI/Components/Styles';
-import { AppRoutes } from 'UI/Components/Router/AppRoutes';
 import { generateList } from 'UI/Components/Router/generateList';
+import { Routes } from 'UI/Components/Router/Routes';
 
-export function NavDrawer(): React.ReactElement {
+export default function NavDrawer(): React.ReactElement {
   const { navOpen, toggleNav } = useNavState();
   const classes = useStyles({});
 
-  const routes = useMemo(() => generateList(AppRoutes), [AppRoutes])
+  const routes = useMemo(() => generateList(Routes), []);
 
   return useMemo(
     () => (
@@ -27,6 +27,13 @@ export function NavDrawer(): React.ReactElement {
         {...routes}
       </SwipeableDrawer>
     ),
-    [navOpen],
+    [
+      navOpen,
+      classes.drawer,
+      classes.drawerPaper,
+      classes.toolbar,
+      routes,
+      toggleNav,
+    ],
   );
 }

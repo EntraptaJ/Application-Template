@@ -4,7 +4,7 @@ import KoaRouter from '@koa/router';
 import serve from 'koa-static';
 import { readJSON } from 'fs-extra';
 import { resolve } from 'path';
-import universalCookies from 'universal-cookie-koa'
+import universalCookies from 'universal-cookie-koa';
 
 const loadServer = async (): Promise<typeof import('./server')> => {
   const manifest = await readJSON(`dist/server/parcel-manifest.json`);
@@ -35,7 +35,7 @@ async function startWeb(): Promise<void> {
         });
     }
     try {
-      return uiServer(ctx, { baseUrl: 'http://localhost' });
+      return uiServer(ctx, { baseUrl: 'https://c7f1a585.ngrok.io' });
     } catch {
       ctx.body = 'Error';
     }
