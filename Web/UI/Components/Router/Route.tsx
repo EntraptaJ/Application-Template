@@ -14,6 +14,12 @@ interface RouteProps {
   exact?: boolean;
 }
 
+const Loading: React.FunctionComponent<> = () => {
+  return <div>Loading</div>;
+};
+
+Loading.displayName = 'Loading';
+
 export function Route({
   imported,
   children,
@@ -22,14 +28,8 @@ export function Route({
 }: PropsWithChildren<RouteProps>): React.ReactElement {
   const Component = useImport({
     ...imported,
-    Loader: () => <div>Loading</div>,
+    Loader: Loading,
   });
 
-    return (
-      <RouteComponent
-        exact={exact}
-        path={path}
-        component={Component}
-      />
-    );
+  return <RouteComponent exact={exact} path={path} component={Component} />;
 }

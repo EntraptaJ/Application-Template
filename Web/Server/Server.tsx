@@ -75,20 +75,29 @@ export async function uiServer(
     </StaticRouter>
   );
 
-  await prepass(AppComponent);
+  const preRender = async () => {
+    try {
+      prepass(AppComponent, async (a, b) => {
+        console.log(b, a);
+      });
+    } catch {
+      console.log('HelloWorld');
+    }
+  };
 
   try {
-    await getDataFromTree(sheets.collect(AppComponent));
-  } catch (e) {}
+    await preRender();
+  } catch {}
 
   for (const importedItem of imports) {
     const { path, promise } = importedItem;
-    await promise;
     initialSources.push({ type: SourceType.SCRIPT, src: parcelManifest[path] });
   }
 
-  const appStream = renderToNodeStream(AppComponent);
-  renderToString(sheets.collect(AppComponent));
+  const appStream = renderToNodeStream(sheets.collect(AppComponent));
+  try {
+    await getDataFromTree(sheets.collect(AppComponent));
+  } catch (e) {}
 
   const headStream = renderHeadStream({
     sources: initialSources,
