@@ -9,13 +9,14 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "UI/*": ["./UI/*"],
-      "Server": ["./Server/*"]
+      "Server/*": ["./Server/*"],
+      "UI/*": ["./UI/*"]
     },
     "typeRoots": ["./types"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true
   }
 }

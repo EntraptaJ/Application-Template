@@ -16,6 +16,7 @@ services:
       DB_PASSWORD: pgpass
     volumes:
       - './API:/development'
+      - './API.graphql:/API.graphql'
   database:
     image: postgres:11-alpine
     volumes:

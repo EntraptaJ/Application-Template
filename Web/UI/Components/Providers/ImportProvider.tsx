@@ -8,7 +8,11 @@ import React, {
   useState,
 } from 'react';
 
-type ReactComponent = () => React.ReactElement;
+function Test<T extends any>(props: T): any {
+  return <div>Test</div>;
+}
+
+type ReactComponent = (props?: any) => React.ReactElement;
 
 interface ReactModule {
   default: ReactComponent;
@@ -63,17 +67,13 @@ export function ImportProvider({
   );
 }
 
-interface UseImportInput {
-  imported: Promise<ReactModule>;
+interface UseImportInput<T> {
+  imported: Promise<{ default: T }>;
   path: string;
-  Loader: ReactComponent;
+  Loader: () => React.ReactElement;
 }
 
-export function useImport({
-  imported,
-  path,
-  Loader,
-}: UseImportInput): ReactComponent {
+export function useImport<T>({ imported, path, Loader }: UseImportInput<T>): T {
   const { addImport } = useContext(ImportContext);
   const { imports } = useContext(ImportContext);
   const [result, setResult] = useState<ReactModule>();
@@ -100,6 +100,8 @@ export function useImport({
     ) {
       if (result) return result;
       return Loader;
-    } else return ourImport.promise;
-  }, [ourImport, Loader, result]);
+    } else {
+      return ourImport.promise;
+    }
+  }, [ourImport, result]);
 }

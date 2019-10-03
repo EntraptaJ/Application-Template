@@ -1,5 +1,5 @@
 // Web/UI/Client.tsx
-import React, { useEffect } from 'react';
+import React, { useEffect, createElement } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import { hydrate, render as ReactDOMRender } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,34 +10,17 @@ import {
 } from './Components/Providers/ImportProvider';
 import { ConfigProvider } from './Components/Providers/ConfigProvider';
 import { ApolloProvider } from './Components/Providers/ApolloProvider';
+import { App } from './App';
 
 window.setImmediate = window.setTimeout;
 
 export let imports: ImportItem[] = [];
 
-if (process.env.NODE_ENV === 'production') {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async function() {
-      const worker = await navigator.serviceWorker.register(
-        '/service-worker.ts',
-        { scope: '/' },
-      );
-      console.log('SW registered: ', worker);
-    });
-  }
-}
-
 interface CoreAppProps {
-  App: () => React.ReactElement;
+  App: typeof import('./App').App;
 }
 
 function CoreApp({ App }: CoreAppProps): React.ReactElement {
-  useEffect(() => {
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles && jssStyles.parentNode)
-      jssStyles.parentNode.removeChild(jssStyles);
-  }, []);
-
   return (
     <BrowserRouter>
       <ImportProvider imports={imports}>
@@ -56,13 +39,12 @@ function CoreApp({ App }: CoreAppProps): React.ReactElement {
 async function render(
   renderFunction: import('react-dom').Renderer,
 ): Promise<void> {
-  const { App } = await import('UI/App');
+  const MainApp = createElement(() => <CoreApp App={App} />);
 
-  const Component = <CoreApp App={App} />;
+  await prepass(MainApp);
+  for (const { promise } of imports) await promise;
 
-  await prepass(Component);
-
-  renderFunction(Component, document.getElementById('app'));
+  renderFunction(MainApp, document.getElementById('app'));
 }
 
 render(hydrate);

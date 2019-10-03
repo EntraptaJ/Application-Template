@@ -16,7 +16,10 @@ import { renderAppStateScriptStreams } from 'Server/State';
 import { App } from 'UI/App';
 import { ApolloProvider } from 'UI/Components/Providers/ApolloProvider';
 import { ConfigProvider } from 'UI/Components/Providers/ConfigProvider';
-import { ImportItem, ImportProvider } from 'UI/Components/Providers/ImportProvider';
+import {
+  ImportItem,
+  ImportProvider,
+} from 'UI/Components/Providers/ImportProvider';
 
 const manifestFile = `dist/public/parcel-manifest.json`;
 
@@ -27,14 +30,13 @@ export async function uiServer(
   const cookies = ctx.request.universalCookies;
   ctx.respond = false;
   ctx.status = 200;
-  ctx.res.write('<!doctype html>\n<html>');
+  ctx.res.write('<!doctype html>\n<html><head>');
 
   const [parcelManifest] = await Promise.all([
     readJSON(manifestFile) as Promise<{ [key: string]: string }>,
   ]);
 
   const initialSources: Source[] = [
-    { type: SourceType.SCRIPT, src: parcelManifest['Client.tsx'] },
     {
       type: SourceType.SCRIPT,
       src: parcelManifest['App.tsx'],
@@ -75,22 +77,23 @@ export async function uiServer(
 
   await prepass(AppComponent);
 
+  await prepass(AppComponent);
+
+  await getDataFromTree(sheets.collect(AppComponent));
+
   for (const importedItem of imports) {
-    const { path } = importedItem;
+    const { path, promise } = importedItem;
+    await promise;
     initialSources.push({ type: SourceType.SCRIPT, src: parcelManifest[path] });
   }
 
-  const appStream = renderToNodeStream(sheets.collect(AppComponent));
-  await getDataFromTree(sheets.collect(AppComponent));
+  const appStream = renderToNodeStream(AppComponent);
 
-  const headStream = renderHeadStream({ sources: initialSources, sheets });
+  const headStream = renderHeadStream({
+    sources: initialSources,
+  });
 
   const scriptStream = renderScriptTags({ sources: initialSources });
-  const stateScriptStream = renderAppStateScriptStreams({
-    CONFIG: config,
-    PROPS: {},
-    APOLLO_STATE: cache.extract(),
-  });
 
   headStream.pipe(
     ctx.res,
@@ -98,7 +101,10 @@ export async function uiServer(
   );
 
   headStream.on('end', async () => {
-    ctx.res.write('<body><div id="app">');
+    ctx.res.write(`<style
+    id="jss-server-side"
+  >${sheets.toString()}</style>`);
+    ctx.res.write('</head><body><div id="app">');
     appStream.pipe(
       ctx.res,
       { end: false },
@@ -107,18 +113,23 @@ export async function uiServer(
 
   appStream.on('end', () => {
     ctx.res.write('</div>');
+    const stateScriptStream = renderAppStateScriptStreams({
+      CONFIG: config,
+      PROPS: {},
+      APOLLO_STATE: cache.extract(),
+    });
 
     stateScriptStream.pipe(
       ctx.res,
       { end: false },
     );
-  });
 
-  stateScriptStream.on('end', () => {
-    scriptStream.pipe(
-      ctx.res,
-      { end: false },
-    );
+    stateScriptStream.on('end', () => {
+      scriptStream.pipe(
+        ctx.res,
+        { end: false },
+      );
+    });
   });
 
   scriptStream.on('end', () => ctx.res.end('</body></html>'));

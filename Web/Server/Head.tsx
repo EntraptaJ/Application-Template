@@ -2,11 +2,9 @@
 import React from 'react';
 import { Source, SourceType } from './Sources';
 import { renderToStaticNodeStream } from 'react-dom/server';
-import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
 
 interface HeadProps {
   sources: Source[];
-  sheets: ServerStyleSheets;
 }
 
 const AppCSS = `#app {
@@ -18,9 +16,9 @@ html, body, #app {
   width: 100%;
 }`;
 
-export function Head({ sources, sheets }: HeadProps): React.ReactElement {
+export function Head({ sources }: HeadProps): React.ReactElement {
   return (
-    <head>
+    <>
       <meta charSet='utf-8' />
 
       <link rel='shortcut icon' href='/favicon.ico' />
@@ -40,12 +38,9 @@ export function Head({ sources, sheets }: HeadProps): React.ReactElement {
           .map(({ src }, index) => (
             <link rel='stylesheet' type='text/css' href={src} key={index} />
           ))}
-      <style
-        id='jss-server-side'
-        dangerouslySetInnerHTML={{ __html: sheets.toString() }}
-      />
+
       <style dangerouslySetInnerHTML={{ __html: AppCSS }} />
-    </head>
+    </>
   );
 }
 

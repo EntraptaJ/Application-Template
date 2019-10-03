@@ -1,6 +1,6 @@
 // Web/Server/Sources.tsx
 import React from 'react';
-import { renderToNodeStream } from 'react-dom/server';
+import { renderToStaticNodeStream } from 'react-dom/server';
 
 export enum SourceType {
   SCRIPT = 'script',
@@ -26,8 +26,15 @@ export function ScriptTags({ sources }: ScriptTagsProps): React.ReactElement {
         )
         .reverse()
         .map(({ src }, index) => (
-          <script async type='text/javascript' key={index} src={src} />
+          <script
+            async
+            type='text/javascript'
+            charSet='utf-8'
+            key={index}
+            src={src}
+          />
         ))}
+      <script type='text/javascript' charSet='utf-8' src={'/Client.js'} />
     </>
   );
 }
@@ -35,5 +42,5 @@ export function ScriptTags({ sources }: ScriptTagsProps): React.ReactElement {
 export function renderScriptTags(
   props: ScriptTagsProps,
 ): NodeJS.ReadableStream {
-  return renderToNodeStream(<ScriptTags {...props} />);
+  return renderToStaticNodeStream(<ScriptTags {...props} />);
 }

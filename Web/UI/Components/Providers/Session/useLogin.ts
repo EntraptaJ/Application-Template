@@ -1,13 +1,26 @@
 // Web/UI/Components/Providers/Session/useLogin.ts
-import { useLoginMutation } from './login.gen'
+import { useLoginMutation, LoginMutationResult } from './login.gen';
 import { LoginInput } from 'UI/GraphQL/graphqlTypes.gen';
 import { useCallback } from 'react';
+import { useToken } from './useToken';
 
-export function useLogin(): any {
-  const [login] = useLoginMutation()
+type LoginFunction = (input: LoginInput) => Promise<boolean>;
 
-  const loginFN = useCallback(async (input: LoginInput) => {
-    const response = await login({ variables: { input } })
-  }, [login])
+export function useLogin(): [LoginFunction, LoginMutationResult] {
+  const { setToken } = useToken();
+  const [loginFn, extras] = useLoginMutation();
+  const login: LoginFunction = useCallback(
+    async (input) => {
+      const response = await loginFn({ variables: { input } });
+      if (response.data && response.data.login) {
+        setToken(response.data.login.token);
+        return true;
+      } else {
+        return false;
+      }
+    },
+    [loginFn],
+  );
 
+  return [login, extras];
 }

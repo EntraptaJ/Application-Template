@@ -39,4 +39,13 @@ export const AppRoutes: AppRoute[] = [
       path: 'Routes/Lab/index.tsx',
     },
   },
+  {
+    path: 'Login',
+    to: '/Login',
+    label: 'Login',
+    imported: {
+      imported: import('UI/Routes/Authentication/Login'),
+      path: 'Routes/Authentication/Login.tsx',
+    },
+  },
 ];
