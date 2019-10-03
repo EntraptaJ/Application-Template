@@ -10,6 +10,7 @@ import {
   ImportItem,
   ImportProvider,
 } from './Components/Providers/ImportProvider';
+import { App } from './App';
 
 window.setImmediate = window.setTimeout;
 
@@ -32,7 +33,7 @@ function CoreApp({ children }: PropsWithChildren<{}>): React.ReactElement {
 async function render(
   renderFunction: import('react-dom').Renderer,
 ): Promise<void> {
-  const { App } = await import('UI/App');
+  imports = [];
   const MainApp = (
     <CoreApp>
       <App />

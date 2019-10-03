@@ -77,15 +77,14 @@ export async function uiServer(
 
   const preRender = async () => {
     try {
-      prepass(AppComponent, async (a, b) => {
-        console.log(b, a);
-      });
+      prepass(AppComponent, async (a, b) => {});
     } catch {
       console.log('HelloWorld');
     }
   };
 
   try {
+    await preRender();
     await preRender();
   } catch {}
 

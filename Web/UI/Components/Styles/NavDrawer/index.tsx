@@ -5,12 +5,14 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { useStyles } from 'UI/Components/Styles';
 import { generateList } from 'UI/Components/Router/generateList';
 import { Routes } from 'UI/Components/Router/Routes';
+import { useSession } from 'UI/Components/Providers/Session/SessionProvider';
 
 export default function NavDrawer(): React.ReactElement {
   const { navOpen, toggleNav } = useNavState();
   const classes = useStyles({});
+  const { roles } = useSession();
 
-  const routes = useMemo(() => generateList(Routes), []);
+  const routes = useMemo(() => generateList(Routes, roles), [roles]);
 
   return useMemo(
     () => (

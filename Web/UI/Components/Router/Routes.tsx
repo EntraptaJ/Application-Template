@@ -1,7 +1,10 @@
 // Web/UI/Components/Router/Routes.tsx
+import { UserRole } from 'UI/GraphQL/graphqlTypes.gen';
+
 export interface Route {
   to: string;
   label: string;
+  roles?: UserRole[];
 }
 
 export const Routes: Route[] = [
@@ -9,5 +12,5 @@ export const Routes: Route[] = [
   { label: 'Test', to: '/Test' },
   { label: 'Example', to: '/Example' },
   { label: 'Lab', to: '/Lab' },
-  { label: 'Login', to: '/Login' },
+  { label: 'Login', to: '/Login', roles: [UserRole.Guest] },
 ];
