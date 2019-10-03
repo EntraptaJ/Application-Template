@@ -15,7 +15,7 @@ on:
       - 'API/*/*/*/*/*/*/*/*/*'
       - 'API/*/*/*/*/*/*/*/*/*/*'
 
-steps:
+jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
