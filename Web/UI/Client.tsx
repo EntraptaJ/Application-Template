@@ -16,11 +16,7 @@ window.setImmediate = window.setTimeout;
 
 export let imports: ImportItem[] = [];
 
-interface CoreAppProps {
-  App: typeof import('./App').App;
-}
-
-function CoreApp({ App }: CoreAppProps): React.ReactElement {
+function CoreApp(): React.ReactElement {
   return (
     <BrowserRouter>
       <ImportProvider imports={imports}>
@@ -39,7 +35,7 @@ function CoreApp({ App }: CoreAppProps): React.ReactElement {
 async function render(
   renderFunction: import('react-dom').Renderer,
 ): Promise<void> {
-  const MainApp = createElement(() => <CoreApp App={App} />);
+  const MainApp = <CoreApp />;
 
   await prepass(MainApp);
   for (const { promise } of imports) await promise;
@@ -47,7 +43,11 @@ async function render(
   renderFunction(MainApp, document.getElementById('app'));
 }
 
-render(hydrate);
+render(ReactDOMRender);
 
 const hot = module.hot;
-if (hot && hot.accept) hot.accept(async () => render(ReactDOMRender));
+if (hot && hot.accept)
+  hot.accept(async () => {
+    imports = [];
+    render(ReactDOMRender);
+  });

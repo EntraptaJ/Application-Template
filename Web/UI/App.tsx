@@ -5,8 +5,9 @@ import { ThemeProvider } from '@material-ui/styles';
 import { theme } from 'UI/Components/Styles/Theme';
 import AppRouter from './Components/Router';
 import { CssBaseline } from '@material-ui/core';
-import { NavProvider } from './Components/Providers/NavProvider';
-import { useImport } from './Components/Providers/ImportProvider';
+import { NavProvider } from 'UI/Components/Providers/NavProvider';
+import { useImport } from 'UI/Components/Providers/ImportProvider';
+import { SessionProvider } from 'UI/Components/Providers/Session/SessionProvider';
 
 export function App(): React.ReactElement {
   const AppBar = useImport({
@@ -22,20 +23,16 @@ export function App(): React.ReactElement {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <NavProvider>
-        <AppBar />
-        <NavDrawer />
-      </NavProvider>
+    <SessionProvider>
+      <ThemeProvider theme={theme}>
+        <NavProvider>
+          <AppBar />
+          <NavDrawer />
+        </NavProvider>
 
-      <main
-        style={{
-          height: '100%',
-        }}
-      >
         <AppRouter />
-      </main>
-      <CssBaseline />
-    </ThemeProvider>
+        <CssBaseline />
+      </ThemeProvider>
+    </SessionProvider>
   );
 }

@@ -41,7 +41,7 @@ type Mutation {
 }
 
 type Query {
-  currentUser: User!
+  currentUser: CurrentUser
   hasSetup: Boolean!
   users: [User!]!
   utilities: [Utility!]!

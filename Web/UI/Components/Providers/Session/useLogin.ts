@@ -19,7 +19,7 @@ export function useLogin(): [LoginFunction, LoginMutationResult] {
         return false;
       }
     },
-    [loginFn],
+    [loginFn, setToken],
   );
 
   return [login, extras];

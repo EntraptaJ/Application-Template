@@ -76,7 +76,7 @@ export type MutationCreateUtilityArgs = {
 
 export type Query = {
    __typename?: 'Query',
-  currentUser: User,
+  currentUser?: Maybe<CurrentUser>,
   hasSetup: Scalars['Boolean'],
   users: Array<User>,
   utilities: Array<Utility>,
@@ -128,6 +128,21 @@ export type Utility = {
   id: Scalars['ID'],
   name: Scalars['String'],
 };
+export type CurrentUserFragment = (
+  { __typename?: 'CurrentUser' }
+  & Pick<CurrentUser, 'username' | 'id' | 'roles'>
+);
+
+export type CurrentUserQueryVariables = {};
+
+
+export type CurrentUserQuery = (
+  { __typename?: 'Query' }
+  & { currentUser: Maybe<{ __typename?: 'CurrentUser' }
+    & CurrentUserFragment
+  > }
+);
+
 export type LoginMutationVariables = {
   input: LoginInput
 };
@@ -138,10 +153,9 @@ export type LoginMutation = (
   & { login: (
     { __typename?: 'AuthResponse' }
     & Pick<AuthResponse, 'token'>
-    & { currentUser: (
-      { __typename?: 'CurrentUser' }
-      & Pick<CurrentUser, 'id' | 'roles'>
-    ) }
+    & { currentUser: { __typename?: 'CurrentUser' }
+      & CurrentUserFragment
+     }
   ) }
 );
 

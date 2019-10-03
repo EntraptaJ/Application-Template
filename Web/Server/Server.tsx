@@ -6,7 +6,7 @@ import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
 import React, { createElement } from 'react';
 import { CookiesProvider } from 'react-cookie';
-import { renderToNodeStream } from 'react-dom/server';
+import { renderToNodeStream, renderToString } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import prepass from 'react-ssr-prepass';
 import { AppConfiguration } from 'Server/Config';
@@ -61,7 +61,7 @@ export async function uiServer(
 
   const cache = new InMemoryCache();
 
-  const AppComponent = createElement(() => (
+  const AppComponent = (
     <StaticRouter location={ctx.url} context={context}>
       <ImportProvider imports={imports}>
         <ConfigProvider {...config}>
@@ -73,13 +73,13 @@ export async function uiServer(
         </ConfigProvider>
       </ImportProvider>
     </StaticRouter>
-  ));
+  );
 
   await prepass(AppComponent);
 
-  await prepass(AppComponent);
-
-  await getDataFromTree(sheets.collect(AppComponent));
+  try {
+    await getDataFromTree(sheets.collect(AppComponent));
+  } catch (e) {}
 
   for (const importedItem of imports) {
     const { path, promise } = importedItem;
@@ -88,6 +88,7 @@ export async function uiServer(
   }
 
   const appStream = renderToNodeStream(AppComponent);
+  renderToString(sheets.collect(AppComponent));
 
   const headStream = renderHeadStream({
     sources: initialSources,
