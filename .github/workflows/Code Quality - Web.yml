@@ -1,0 +1,33 @@
+name: Code Quality - API
+on:
+  push:
+    paths:
+      - 'API/*'
+      - 'API/*/*'
+      - 'API/*/*/*'
+      - 'API/*/*/*/*'
+      - 'API/*/*/*/*/*'
+      - 'API/*/*/*/*/*/*'
+      - 'API/*/*/*/*/*/*/*'
+      - 'API/*/*/*/*/*/*/*/*'
+      - 'API/*/*/*/*/*/*/*/*/*'
+      - 'API/*/*/*/*/*/*/*/*/*/*'
+jobs:
+  Prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: KristianFJones/npm-run-action@alternative
+        with:
+          scriptName: 'prettier'
+          scriptPath: 'Web/'
+  Lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: KristianFJones/npm-run-action@alternative
+        with:
+          scriptName: 'lint'
+          scriptPath: 'Web/'
