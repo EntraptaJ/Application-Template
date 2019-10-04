@@ -4,21 +4,19 @@ import { Route as RouteComponent } from 'react-router-dom';
 import { useImport } from '../Providers/ImportProvider';
 
 export interface ImportedRouteInput {
-  imported: Promise<{ default: any }>;
+  imported: Promise<{ default: () => React.ReactElement }>;
   path: string;
 }
 
 interface RouteProps {
-  imported?: ImportedRouteInput;
+  imported: ImportedRouteInput;
   path: string;
   exact?: boolean;
 }
 
-const Loading: React.FunctionComponent<> = () => {
+function Loader(): React.ReactElement {
   return <div>Loading</div>;
-};
-
-Loading.displayName = 'Loading';
+}
 
 export function Route({
   imported,
@@ -28,8 +26,27 @@ export function Route({
 }: PropsWithChildren<RouteProps>): React.ReactElement {
   const Component = useImport({
     ...imported,
-    Loader: Loading,
+    Loader,
   });
+
+  if (children)
+    return (
+      <RouteComponent
+        path={path}
+        render={() => (
+          <>
+            {' '}
+            <RouteComponent
+              key={path}
+              path={`${path}/`}
+              exact
+              component={Component}
+            />
+            {children}
+          </>
+        )}
+      />
+    );
 
   return <RouteComponent exact={exact} path={path} component={Component} />;
 }

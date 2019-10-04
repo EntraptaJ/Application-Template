@@ -7,7 +7,22 @@ import AppRouter from './Components/Router';
 import { CssBaseline } from '@material-ui/core';
 import { NavProvider } from 'UI/Components/Providers/NavProvider';
 import { useImport } from 'UI/Components/Providers/ImportProvider';
-import { SessionProvider } from 'UI/Components/Providers/Session/SessionProvider';
+import { SessionProvider, useSession } from 'UI/Components/Providers/Session/SessionProvider';
+import { useRoute } from 'UI/Components/Router/useRoute';
+import { Redirect } from 'react-router';
+
+export function AppBody(): React.ReactElement {
+  const route = useRoute();
+  const { roles } = useSession()
+
+  const isAuthorized = route?.roles ? route?.roles?.every((role) => roles.includes(role)) : true
+
+  return (
+    <>
+      {isAuthorized ? <AppRouter /> : <Redirect to='/' />}
+    </>
+  );
+}
 
 export function App(): React.ReactElement {
   const AppBar = useImport({
@@ -30,7 +45,7 @@ export function App(): React.ReactElement {
           <NavDrawer />
         </NavProvider>
 
-        <AppRouter />
+        <AppBody />
         <CssBaseline />
       </ThemeProvider>
     </SessionProvider>

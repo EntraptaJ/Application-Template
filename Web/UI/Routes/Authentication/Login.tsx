@@ -1,14 +1,14 @@
 // Web/UI/Routes/Authentication/Login.tsx
-import React, { useCallback } from 'react';
-import { Form } from 'UI/Components/Styles/Form';
 import Typography from '@material-ui/core/Typography';
+import React, { useCallback } from 'react';
+import { useHistory } from 'react-router';
+import { useLogin } from 'UI/Components/Providers/Session/useLogin';
+import { Form } from 'UI/Components/Styles/Form';
 import {
   FieldType,
   TextFieldInputType,
 } from 'UI/Components/Styles/Inputs/TextField/useTextFieldProps';
-import { useLogin } from 'UI/Components/Providers/Session/useLogin';
 import { useApolloErrors } from 'UI/Utils/useApolloErrors';
-import { useHistory, useLocation } from 'react-router';
 
 interface FormData {
   username: string;
@@ -17,12 +17,19 @@ interface FormData {
 
 export default function LoginRoute(): React.ReactElement {
   const history = useHistory();
+
   const [login, { error: ApolloErrors }] = useLogin();
+
   const errors = useApolloErrors(ApolloErrors);
-  const handleSubmit = useCallback(async (formData: FormData) => {
-    const response = await login(formData);
-    if (response) history.push('/');
-  }, []);
+
+  const handleSubmit = useCallback(
+    async (formData: FormData) => {
+      const response = await login(formData);
+      if (response) history.push('/');
+    },
+    [history, login],
+  );
+
   return (
     <Form<FormData>
       title={

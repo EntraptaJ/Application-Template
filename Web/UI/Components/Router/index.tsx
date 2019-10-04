@@ -6,13 +6,26 @@ import { Route } from './Route';
 import { AppRoute } from './AppRoute';
 import { AppRoutes } from './AppRoutes';
 
-function generateRoutes(routes: AppRoute[], parent: string = '/'): React.ReactElement[] {
+function generateRoutes(
+  routes: AppRoute[],
+  parent = '/',
+): React.ReactElement[] {
   const elements: React.ReactElement[] = [];
-  for (const { path, children, ...route } of routes) {
-    const routePath = `${parent}${path}`
-    if (children) elements.push(<Route key={route.to} path={routePath} {...route}>{generateRoutes(children, routePath)}</Route>)
-    else elements.push(<Route key={route.to} path={routePath} {...route} />);
+  for (const { path, children, exact, imported } of routes) {
+    const routePath = `${parent}${path}`;
+
+    if (children)
+      elements.push(
+        <Route key={path} path={routePath} imported={imported}>
+          {...generateRoutes(children, `${routePath}/`)}
+        </Route>,
+      );
+    else
+      elements.push(
+        <Route key={path} path={routePath} exact={exact} imported={imported} />,
+      );
   }
+
   return elements;
 }
 

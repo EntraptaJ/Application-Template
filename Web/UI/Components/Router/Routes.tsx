@@ -5,6 +5,7 @@ export interface Route {
   to: string;
   label: string;
   roles?: UserRole[];
+  children?: Route[];
 }
 
 export const Routes: Route[] = [
@@ -13,4 +14,16 @@ export const Routes: Route[] = [
   { label: 'Example', to: '/Example' },
   { label: 'Lab', to: '/Lab' },
   { label: 'Login', to: '/Login', roles: [UserRole.Guest] },
+  {
+    label: 'Admin',
+    to: '/Admin',
+    roles: [UserRole.Admin],
+    children: [
+      {
+        label: 'Test',
+        to: '/Admin/Test',
+        roles: [UserRole.Admin],
+      },
+    ],
+  },
 ];

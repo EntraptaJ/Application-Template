@@ -12,6 +12,13 @@ export enum FieldType {
   DATE = 'date',
 }
 
+enum FieldAutoComplete {
+  'password' = 'current-password',
+  'username' = 'username',
+  'email' = 'email',
+  'text' = 'off',
+}
+
 export enum TextFieldInputType {
   TEXT = 'text',
   PASSWORD = 'password',
@@ -64,7 +71,9 @@ export function useFields({
           const validState = errors && field.name === errors.field && errors;
           switch (field.type) {
             case FieldType.TEXT:
-              const { inputType, ...fieldData } = field;
+              const { inputType, type, ...fieldData } = field;
+              const autoComplete = FieldAutoComplete[inputType];
+
               return (
                 <TextField
                   variant='outlined'
@@ -75,6 +84,7 @@ export function useFields({
                   fullWidth
                   error={!!validState}
                   helperText={validState && validState.errorMessage}
+                  autoComplete={autoComplete}
                   {...fieldData}
                 />
               );
@@ -106,6 +116,6 @@ export function useFields({
         })}
       </>
     ),
-    [fields, TextField, errors],
+    [fields, errors, classes.fieldStyle, register],
   );
 }

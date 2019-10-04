@@ -15,8 +15,8 @@ export function SessionActions(): React.ReactElement {
   const menuAnchor = useRef<HTMLAnchorElement>(null);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
-  const openMenu = useCallback(() => setMenuOpen(true), [menuAnchor]);
-  const closeMenu = useCallback(() => setMenuOpen(false), [menuAnchor]);
+  const openMenu = useCallback(() => setMenuOpen(true), []);
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   return useMemo(
     () =>
@@ -34,6 +34,6 @@ export function SessionActions(): React.ReactElement {
           />
         </>
       ),
-    [isAuthorized, menuOpen],
+    [isAuthorized, menuOpen, closeMenu, classes.sessionIcon, openMenu],
   );
 }

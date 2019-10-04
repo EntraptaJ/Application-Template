@@ -14,7 +14,7 @@ interface FormData {
 }
 
 export default function LabRoute(): React.ReactElement {
-  const handleSubmit = (data: FormData) => console.log(data);
+  const handleSubmit = (data: FormData): void => console.log(data);
 
   return (
     <>

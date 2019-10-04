@@ -3,8 +3,7 @@ import { AppRoute } from './AppRoute';
 
 export const AppRoutes: AppRoute[] = [
   {
-    to: '/',
-    path: '/',
+    path: '',
     label: 'Home',
     exact: true,
     imported: {
@@ -13,7 +12,6 @@ export const AppRoutes: AppRoute[] = [
     },
   },
   {
-    to: '/Test',
     path: 'Test',
     label: 'Test',
     imported: {
@@ -23,7 +21,6 @@ export const AppRoutes: AppRoute[] = [
   },
   {
     path: 'Example',
-    to: '/Example',
     label: 'Example',
     imported: {
       imported: import('UI/Routes/Example'),
@@ -32,7 +29,6 @@ export const AppRoutes: AppRoute[] = [
   },
   {
     path: 'Lab',
-    to: '/Lab/',
     label: 'Lab',
     imported: {
       imported: import('UI/Routes/Lab'),
@@ -41,11 +37,29 @@ export const AppRoutes: AppRoute[] = [
   },
   {
     path: 'Login',
-    to: '/Login',
     label: 'Login',
     imported: {
       imported: import('UI/Routes/Authentication/Login'),
       path: 'Routes/Authentication/Login.tsx',
     },
+  },
+  {
+    path: 'Admin',
+    label: 'Admin',
+    exact: true,
+    imported: {
+      imported: import('UI/Routes/Admin/Home'),
+      path: 'Routes/Admin/Home.tsx',
+    },
+    children: [
+      {
+        path: 'Test',
+        label: 'Test',
+        imported: {
+          imported: import('UI/Routes/Admin/Test'),
+          path: 'Routes/Admin/Test.tsx',
+        },
+      },
+    ],
   },
 ];

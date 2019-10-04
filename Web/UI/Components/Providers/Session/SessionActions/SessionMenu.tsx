@@ -19,15 +19,18 @@ interface MenuItemType {
 
 const MenuItems: MenuItemType[] = [{ label: 'Logout', name: 'logout' }];
 
-export function SessionMenu(props: SessionMenuProps): React.ReactElement {
+export function SessionMenu({
+  onClose,
+  ...props
+}: SessionMenuProps): React.ReactElement {
   const { deleteToken } = useToken();
 
   const handleMenuItem = useCallback(
     (item: MenuAction) => () => {
       if (item === 'logout') deleteToken();
-      props.onClose();
+      onClose();
     },
-    [],
+    [onClose, deleteToken],
   );
 
   return useMemo(
@@ -48,6 +51,7 @@ export function SessionMenu(props: SessionMenuProps): React.ReactElement {
             top: '4.05em',
           },
         }}
+        onClose={onClose}
         {...props}
       >
         {MenuItems.map(({ label, name }) => (
@@ -57,6 +61,6 @@ export function SessionMenu(props: SessionMenuProps): React.ReactElement {
         ))}
       </Menu>
     ),
-    [props],
+    [props, handleMenuItem, onClose],
   );
 }

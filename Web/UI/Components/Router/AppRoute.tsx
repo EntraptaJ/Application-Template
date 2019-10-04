@@ -1,6 +1,5 @@
-import { ImportedRouteInput } from './Route';
-
 // Web/UI/Components/Router/AppRoutes.tsx
+import { ImportedRouteInput } from './Route';
 
 interface Import {
   imported: Promise<{ default: () => React.ReactElement }>;
@@ -16,12 +15,7 @@ export interface AppRoute {
   /**
    * React Router Exact Path
    */
-  exact?: boolean
-
-  /**
-   * The full path used for navigation, Links, etc...
-   */
-  to: string;
+  exact?: boolean;
 
   /**
    * Public label for route

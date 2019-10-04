@@ -3,12 +3,12 @@ import React, { PropsWithChildren, useCallback } from 'react';
 import { BaseListItemProps, BaseListItem } from '../BaseListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-interface LabelListItemText {
+export interface LabelListItemText {
   primary: string;
   secondary?: string;
 }
 
-interface LabelListItemProps extends BaseListItemProps {
+export interface LabelListItemProps extends BaseListItemProps {
   preLabel?: React.ReactElement;
   label: LabelListItemText;
 }

@@ -27,15 +27,13 @@ export function NavProvider({
   children,
 }: PropsWithChildren<{}>): React.ReactElement {
   const location = useLocation();
-  const [navOpen, setNavOpen] = useState<boolean>();
+  const [navOpen, setNavOpen] = useState<boolean>(false);
 
   const toggleNav = useCallback(() => setNavOpen((navOpen) => !navOpen), [
     setNavOpen,
   ]);
 
-  useEffect(() => {
-    if (navOpen) toggleNav();
-  }, [location]);
+  useEffect(() => setNavOpen(() => false), [location.pathname]);
 
   return (
     <NavContext.Provider value={{ navOpen, setNavOpen, toggleNav }}>

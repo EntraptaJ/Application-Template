@@ -9,7 +9,8 @@
           "Server": "./Server"
         }
       }
-    ]
+    ],
+    "@babel/plugin-proposal-optional-chaining"
   ],
   "env": {
     "server": {
