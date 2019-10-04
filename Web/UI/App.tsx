@@ -10,6 +10,7 @@ import { useImport } from 'UI/Components/Providers/ImportProvider';
 import { SessionProvider, useSession } from 'UI/Components/Providers/Session/SessionProvider';
 import { useRoute } from 'UI/Components/Router/useRoute';
 import { Redirect } from 'react-router';
+import { Loader } from './Components/Styles/Loader';
 
 export function AppBody(): React.ReactElement {
   const route = useRoute();
@@ -28,13 +29,13 @@ export function App(): React.ReactElement {
   const AppBar = useImport({
     imported: import('UI/Components/Styles/AppBar/index'),
     path: 'Components/Styles/AppBar/index.tsx',
-    Loader: () => <div>Loading</div>,
+    Loader,
   });
 
   const NavDrawer = useImport({
     imported: import('UI/Components/Styles/NavDrawer/index'),
     path: 'Components/Styles/NavDrawer/index.tsx',
-    Loader: () => <div>Loading</div>,
+    Loader,
   });
 
   return (

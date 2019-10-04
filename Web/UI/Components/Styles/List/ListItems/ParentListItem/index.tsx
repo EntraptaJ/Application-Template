@@ -44,6 +44,6 @@ export function ParentListItem({
         </Collapse>
       </>
     ),
-    [children, classes.root, open],
+    [children, classes.root, open, label, toggleOpen],
   );
 }

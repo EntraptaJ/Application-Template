@@ -97,6 +97,7 @@ export type HTMLAUTOCOMPLETETYPES =
   | 'url'
   | 'photo';
 
+/* eslint-disable */
 export type Register = {
   <Element_1 extends ElementLike = ElementLike>(
     validateRule: Partial<{
@@ -201,3 +202,4 @@ export type Register = {
       | undefined,
   ): void;
 };
+/* eslint-enable */

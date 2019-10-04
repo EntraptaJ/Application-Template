@@ -1,10 +1,10 @@
 // Web/UI/Components/Styles/Form/useField.tsx
 import React, { useMemo } from 'react';
 import { useImport } from 'UI/Components/Providers/ImportProvider';
-import { SelectItem } from '../Inputs/Select/BaseSelect';
 import { useStyles } from './Styles';
 import { Register } from './types';
 import { ValidationError } from 'UI/Utils/useApolloErrors';
+import { Loader } from '../Loader';
 
 export enum FieldType {
   TEXT = 'text',
@@ -31,6 +31,11 @@ interface TextFieldType {
   label: string;
   inputType: TextFieldInputType;
   name: string;
+}
+
+interface SelectItem {
+  label: string;
+  value?: string;
 }
 
 export interface SelectFieldType {
@@ -61,7 +66,8 @@ export function useFields({
       'UI/Components/Styles/Inputs/TextField/BaseTextField/index'
     ),
     path: 'Components/Styles/Inputs/TextField/BaseTextField/index.tsx',
-    Loader: () => <div>Loading</div>,
+    // TODO: TextField Skeleton Loader
+    Loader,
   });
 
   return useMemo(
@@ -69,9 +75,11 @@ export function useFields({
       <>
         {fields.map((field, i) => {
           const validState = errors && field.name === errors.field && errors;
+
+          /* eslint-disable no-case-declarations */
           switch (field.type) {
             case FieldType.TEXT:
-              const { inputType, type, ...fieldData } = field;
+              const { inputType, ...fieldData } = field;
               const autoComplete = FieldAutoComplete[inputType];
 
               return (
@@ -79,13 +87,13 @@ export function useFields({
                   variant='outlined'
                   className={classes.fieldStyle}
                   inputRef={register}
-                  type={inputType}
                   key={i}
                   fullWidth
                   error={!!validState}
                   helperText={validState && validState.errorMessage}
                   autoComplete={autoComplete}
                   {...fieldData}
+                  type={inputType}
                 />
               );
             case FieldType.SELECT:
@@ -113,6 +121,7 @@ export function useFields({
                 </TextField>
               );
           }
+          /* eslint-enable no-case-declarations */
         })}
       </>
     ),

@@ -1,5 +1,5 @@
 // Web/UI/Components/Styles/Button/BaseButton/BaseButtonCore.tsx
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { PropsWithChildren } from 'react';
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import { useStyles } from './Styles';
 import clsx from 'clsx';

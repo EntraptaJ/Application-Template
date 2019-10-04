@@ -27,5 +27,5 @@ export function useToken(): UseToken {
     [deleteCookieToken],
   );
 
-  return { token: cookies['token'], setToken, deleteToken };
+  return { token: cookies.token, setToken, deleteToken };
 }

@@ -1,5 +1,6 @@
 // UI/bin/lib/Icons.ts
 import sharp from 'sharp';
+/* eslint-disable-next-line @typescript-eslint/ban-ts-ignore */
 // @ts-ignore
 import toIco from 'to-ico';
 import { outputFile } from 'fs-extra';

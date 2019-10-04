@@ -4,9 +4,9 @@ import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
-import React, { createElement } from 'react';
+import React from 'react';
 import { CookiesProvider } from 'react-cookie';
-import { renderToNodeStream, renderToString } from 'react-dom/server';
+import { renderToNodeStream } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import prepass from 'react-ssr-prepass';
 import { AppConfiguration } from 'Server/Config';
@@ -89,7 +89,7 @@ export async function uiServer(
   } catch {}
 
   for (const importedItem of imports) {
-    const { path, promise } = importedItem;
+    const { path } = importedItem;
     initialSources.push({ type: SourceType.SCRIPT, src: parcelManifest[path] });
   }
 

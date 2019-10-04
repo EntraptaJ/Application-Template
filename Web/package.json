@@ -28,19 +28,17 @@
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
-      "@typescript-eslint",
-      "prettier",
       "react",
-      "react-hooks"
+      "react-hooks",
+      "@typescript-eslint"
     ],
     "env": {
       "browser": true,
       "node": true
     },
     "parserOptions": {
-      "project": "./tsconfig.main.json",
-      "tsconfigRootDir": "./Web/",
-      "sourceType": "module",
+      "project": "./tsconfig.json",
+      "tsconfigRootDir": ".",
       "ecmaFeatures": {
         "jsx": true
       }
@@ -61,21 +59,28 @@
     "rules": {
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
-      "@typescript-eslint/explicit-function-return-type": [
+      "react/jsx-uses-react": "error",
+      "react/jsx-uses-vars": "error",
+      "@typescript-eslint/camelcase": "warn",
+      "no-unused-vars": "off",
+      "comma-dangle": [
         "error",
-        {
-          "allowExpressions": true
-        }
+        "always-multiline"
       ],
+      "react/no-children-prop": "off",
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          "args": "none"
+          "args": "none",
+          "varsIgnorePattern": "_.+"
         }
       ],
-      "react/jsx-uses-react": "error",
-      "react/jsx-uses-vars": "error",
-      "@typescript-eslint/camelcase": "warn"
+      "@typescript-eslint/no-var-requires": "warn",
+      "@typescript-eslint/no-object-literal-type-assertion": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/explicit-member-accessibility": "off"
     }
   },
   "author": "",
@@ -87,6 +92,7 @@
     "@koa/router": "^8.0.1",
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
+    "@material-ui/lab": "^4.0.0-alpha.28",
     "@material-ui/styles": "^4.5.0",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",

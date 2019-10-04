@@ -8,10 +8,6 @@ import React, {
   useState,
 } from 'react';
 
-function Test<T extends any>(props: T): any {
-  return <div>Test</div>;
-}
-
 type ReactComponent = (props?: any) => React.ReactElement;
 
 interface ReactModule {
@@ -95,7 +91,7 @@ export function useImport<T>({ imported, path, Loader }: UseImportInput<T>): T {
   return useMemo(() => {
     if (
       (ourImport.promise && ourImport.promise.executor) ||
-      Promise.resolve(ourImport.promise) == ourImport.promise ||
+      Promise.resolve(ourImport.promise) === ourImport.promise ||
       typeof ourImport.promise === 'undefined'
     ) {
       if (result) return result;
@@ -103,5 +99,5 @@ export function useImport<T>({ imported, path, Loader }: UseImportInput<T>): T {
     } else {
       return ourImport.promise;
     }
-  }, [ourImport, result]);
+  }, [ourImport, result, Loader]);
 }

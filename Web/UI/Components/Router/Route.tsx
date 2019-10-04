@@ -2,6 +2,7 @@
 import React, { PropsWithChildren } from 'react';
 import { Route as RouteComponent } from 'react-router-dom';
 import { useImport } from '../Providers/ImportProvider';
+import { Loader } from '../Styles/Loader';
 
 export interface ImportedRouteInput {
   imported: Promise<{ default: () => React.ReactElement }>;
@@ -12,10 +13,6 @@ interface RouteProps {
   imported: ImportedRouteInput;
   path: string;
   exact?: boolean;
-}
-
-function Loader(): React.ReactElement {
-  return <div>Loading</div>;
 }
 
 export function Route({

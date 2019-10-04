@@ -14,6 +14,7 @@ export const Routes: Route[] = [
   { label: 'Example', to: '/Example' },
   { label: 'Lab', to: '/Lab' },
   { label: 'Login', to: '/Login', roles: [UserRole.Guest] },
+  { label: 'Register', to: '/Register', roles: [UserRole.Guest] },
   {
     label: 'Admin',
     to: '/Admin',

@@ -44,6 +44,14 @@ export const AppRoutes: AppRoute[] = [
     },
   },
   {
+    path: 'Register',
+    label: 'Register',
+    imported: {
+      imported: import('UI/Routes/Authentication/Register'),
+      path: 'Routes/Authentication/Register.tsx',
+    },
+  },
+  {
     path: 'Admin',
     label: 'Admin',
     exact: true,

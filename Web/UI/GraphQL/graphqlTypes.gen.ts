@@ -159,6 +159,22 @@ export type LoginMutation = (
   ) }
 );
 
+export type RegisterMutationVariables = {
+  input: RegisterInput
+};
+
+
+export type RegisterMutation = (
+  { __typename?: 'Mutation' }
+  & { register: (
+    { __typename?: 'RegisterResponse' }
+    & Pick<RegisterResponse, 'token'>
+    & { currentUser: { __typename?: 'CurrentUser' }
+      & CurrentUserFragment
+     }
+  ) }
+);
+
 export type HelloWorldQueryVariables = {};
 
 
