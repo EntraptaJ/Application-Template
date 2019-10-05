@@ -13,6 +13,7 @@ import { useRoute } from 'UI/Components/Router/useRoute';
 import { theme } from 'UI/Components/Styles/Theme';
 import AppRouter from './Components/Router';
 import { Loader } from './Components/Styles/Loader';
+import { UserRole } from './GraphQL/graphqlTypes.gen';
 
 export function AppBody(): React.ReactElement {
   const route = useRoute();
@@ -20,7 +21,7 @@ export function AppBody(): React.ReactElement {
 
   const isAuthorized = route?.roles ? route?.roles?.every((role) => roles.includes(role)) : true
 
-  return <>{isAuthorized ? <AppRouter /> : <Redirect to='/' />}</>;
+  return <>{isAuthorized ? <AppRouter /> : <Redirect to={{ pathname: roles.includes(UserRole.User) ? '/' : '/Login', state: { pathName: route?.to } }}  />}</>;
 }
 
 export function App(): React.ReactElement {
