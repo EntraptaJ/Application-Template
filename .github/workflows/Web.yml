@@ -1,4 +1,4 @@
-name: Code Quality - Web
+name: Web
 on:
   push:
     paths:
