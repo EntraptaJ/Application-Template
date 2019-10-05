@@ -6,10 +6,13 @@ export interface Route {
   label: string;
   roles?: UserRole[];
   children?: Route[];
+  hideUI?: boolean;
+  hidden?: boolean;
 }
 
 export const Routes: Route[] = [
   { label: 'Home', to: '/' },
+  { label: 'Setup', to: '/Setup', hideUI: true, hidden: true },
   { label: 'Test', to: '/Test' },
   { label: 'Example', to: '/Example' },
   { label: 'Lab', to: '/Lab' },

@@ -9,7 +9,7 @@ import { CookiesProvider } from 'react-cookie';
 import { renderToNodeStream, renderToString } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import prepass from 'react-ssr-prepass';
-import { AppConfiguration } from 'Server/Config';
+import { AppConfiguration } from 'Server/Configuration';
 import { renderHeadStream } from 'Server/Head';
 import { renderScriptTags, Source, SourceType } from 'Server/Sources';
 import { renderAppStateScriptStreams } from 'Server/State';

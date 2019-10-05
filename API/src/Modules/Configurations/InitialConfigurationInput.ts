@@ -4,6 +4,6 @@ import { UserInput } from '../Users/UserInput';
 
 @InputType()
 export class InitialConfigurationInput {
-  @Field()
+  @Field(() => UserInput)
   initialUser: UserInput;
 }

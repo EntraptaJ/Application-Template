@@ -118,81 +118,10 @@ export type Utility = {
   id: Scalars['ID'],
   name: Scalars['String'],
 };
-export type CurrentUserFragment = (
-  { __typename?: 'CurrentUser' }
-  & Pick<CurrentUser, 'username' | 'id' | 'roles'>
-);
-
-export type CurrentUserQueryVariables = {};
+export type HasSetupQueryVariables = {};
 
 
-export type CurrentUserQuery = (
+export type HasSetupQuery = (
   { __typename?: 'Query' }
-  & { currentUser: Maybe<{ __typename?: 'CurrentUser' }
-    & CurrentUserFragment
-  > }
-);
-
-export type LoginMutationVariables = {
-  input: LoginInput
-};
-
-
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'AuthResponse' }
-    & Pick<AuthResponse, 'token'>
-    & { currentUser: { __typename?: 'CurrentUser' }
-      & CurrentUserFragment
-     }
-  ) }
-);
-
-export type RegisterMutationVariables = {
-  input: UserInput
-};
-
-
-export type RegisterMutation = (
-  { __typename?: 'Mutation' }
-  & { register: (
-    { __typename?: 'RegisterResponse' }
-    & Pick<RegisterResponse, 'token'>
-    & { currentUser: { __typename?: 'CurrentUser' }
-      & CurrentUserFragment
-     }
-  ) }
-);
-
-export type UsersQueryVariables = {};
-
-
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { users: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'username' | 'id'>
-  )> }
-);
-
-export type InitialConfigurationMutationVariables = {
-  userInput: UserInput
-};
-
-
-export type InitialConfigurationMutation = (
-  { __typename?: 'Mutation' }
-  & { initialConfiguration: (
-    { __typename?: 'Configuration' }
-    & Pick<Configuration, 'id'>
-  ) }
-);
-
-export type HelloWorldQueryVariables = {};
-
-
-export type HelloWorldQuery = (
-  { __typename?: 'Query' }
-  & Pick<Query, 'helloWorld'>
+  & Pick<Query, 'hasSetup'>
 );

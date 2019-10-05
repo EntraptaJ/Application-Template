@@ -4,7 +4,7 @@ import { User } from 'API/Modules/Users/UserModel';
 import { UserRole } from 'API/Modules/Users/UserRole';
 import { hasSetup } from 'API/Modules/Utilities/hasSetup';
 import { Configuration } from './ConfigurationModel';
-import { InitialConfigurationInput } from './InitialConfigurationInput';
+import { UserInput } from '../Users/UserInput';
 
 @Resolver(() => Configuration)
 export class ConfigurationResovler {
@@ -15,10 +15,11 @@ export class ConfigurationResovler {
 
   @hasSetup(false)
   @Mutation(() => Configuration)
-  async initialConfiguration(@Arg('input')
+  async initialConfiguration(@Arg('user')
   {
-    initialUser: { password, ...initialUser },
-  }: InitialConfigurationInput): Promise<Configuration> {
+    password,
+    ...initialUser
+  }: UserInput): Promise<Configuration> {
     const initialAdmin = User.create({
       ...initialUser,
       roles: [UserRole.USER, UserRole.ADMIN],

@@ -1,7 +1,7 @@
 // Web/Server/State.tsx
 import React from 'react';
 import { NormalizedCacheObject } from 'apollo-cache-inmemory';
-import { AppConfiguration } from 'Server/Config';
+import { AppConfiguration } from 'Server/Configuration';
 import { renderToNodeStream } from 'react-dom/server';
 
 export interface AppState {
@@ -27,6 +27,8 @@ export function AppStateScript({
   );
 }
 
-export function renderAppStateScriptStreams(state: AppState): NodeJS.ReadableStream {
+export function renderAppStateScriptStreams(
+  state: AppState,
+): NodeJS.ReadableStream {
   return renderToNodeStream(<AppStateScript state={state} />);
 }

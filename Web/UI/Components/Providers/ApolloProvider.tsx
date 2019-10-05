@@ -28,8 +28,12 @@ export function ApolloProvider({
     initialState:
       typeof window !== 'undefined' ? window.APP_STATE.APOLLO_STATE : {},
     onError: ({ networkError, operation: { getContext } }) => {
-      if (getContext().ignoreError === true) return
-      if (networkError?.name === 'ServerParseError')  enqueueSnackbar('API Connection Failed', { variant: 'error', persist: true  })
+      if (getContext().ignoreError === true) return;
+      if (networkError?.name === 'ServerParseError')
+        enqueueSnackbar('API Connection Failed', {
+          variant: 'error',
+          persist: true,
+        });
       else enqueueSnackbar('GraphQL Error', { variant: 'error' });
     },
   });

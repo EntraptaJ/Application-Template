@@ -23,10 +23,6 @@ type CurrentUser {
   roles: [UserRole!]!
 }
 
-input InitialConfigurationInput {
-  initialUser: UserInput!
-}
-
 input LoginInput {
   username: String!
   password: String!
@@ -34,9 +30,9 @@ input LoginInput {
 
 type Mutation {
   login(input: LoginInput!): AuthResponse!
-  register(input: RegisterInput!): RegisterResponse!
+  register(input: UserInput!): RegisterResponse!
   resetPasswordReset(input: RequestPasswordResetInput!): Boolean!
-  initialConfiguration(input: InitialConfigurationInput!): Configuration!
+  initialConfiguration(user: UserInput!): Configuration!
   createUtility(input: CreateUtilityInput!): Utility!
 }
 
@@ -46,12 +42,6 @@ type Query {
   users: [User!]!
   utilities: [Utility!]!
   helloWorld: String!
-}
-
-input RegisterInput {
-  username: String!
-  email: String!
-  password: String!
 }
 
 type RegisterResponse {
