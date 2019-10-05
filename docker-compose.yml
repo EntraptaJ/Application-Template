@@ -16,6 +16,14 @@ services:
       DB_PASSWORD: pgpass
     volumes:
       - './API:/development'
+      - './API.graphql:/API.graphql'
+  web-gen:
+    build:
+      context: './Scripts/GraphQLCodegen'
+      dockerfile: 'Dockerfile'
+    image: 'applicationtemplate-gen'
+    volumes:
+      - './Web:/data'
   database:
     image: postgres:11-alpine
     volumes:

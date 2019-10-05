@@ -10,6 +10,11 @@ export class UtilitiesResolver {
     return Utility.find();
   }
 
+  @Query(() => String)
+  helloWorld(): string {
+    return 'helloWorld'
+  }
+
   @Mutation(() => Utility)
   async createUtility(
     @Arg('input') input: CreateUtilityInput,

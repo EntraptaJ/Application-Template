@@ -40,7 +40,7 @@ export class User extends BaseEntity {
         {
           property: 'password',
           constraints: {
-            isValid: 'Password Invalid',
+            isValid: 'Password is invalid',
           },
           children: [],
         },

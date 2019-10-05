@@ -1,0 +1,33 @@
+name: Code Quality - Web
+on:
+  push:
+    paths:
+      - 'Web/*'
+      - 'Web/*/*'
+      - 'Web/*/*/*'
+      - 'Web/*/*/*/*'
+      - 'Web/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*/*/*'
+jobs:
+  Prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: KristianFJones/npm-run-action@alternative
+        with:
+          scriptName: 'prettier'
+          scriptPath: 'Web/'
+  Lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: KristianFJones/npm-run-action@alternative
+        with:
+          scriptName: 'lint'
+          scriptPath: 'Web/'
