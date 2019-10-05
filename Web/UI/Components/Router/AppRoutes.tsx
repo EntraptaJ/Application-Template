@@ -3,6 +3,15 @@ import { AppRoute } from './AppRoute';
 
 export const AppRoutes: AppRoute[] = [
   {
+    path: 'Setup',
+    label: 'Setup',
+    exact: true,
+    imported: {
+      imported: import('UI/Routes/Configuration/InitialConfiguration'),
+      path: 'Routes/Configuration/InitialConfiguration',
+    },
+  },
+  {
     path: '',
     label: 'Home',
     exact: true,

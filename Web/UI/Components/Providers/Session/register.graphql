@@ -1,6 +1,6 @@
 # import "./currentUser.graphql"
 
-mutation register($input: RegisterInput!) {
+mutation register($input: UserInput!) {
   register(input: $input) {
     token
     currentUser {

@@ -7,6 +7,11 @@ import {
   generateToken,
   hashPassword,
 } from '../Auth/AuthController';
+import { Validate } from 'class-validator';
+import {
+  UniqueUsernameConstraint,
+  UniqueEmailConstraint,
+} from '../Auth/AuthValidator';
 
 @ObjectType()
 @Entity()
@@ -17,9 +22,11 @@ export class User extends BaseEntity {
 
   @Field()
   @Column('varchar')
+  @Validate(UniqueUsernameConstraint)
   username: string;
 
   @Column('varchar')
+  @Validate(UniqueEmailConstraint)
   email: string;
 
   @Column({

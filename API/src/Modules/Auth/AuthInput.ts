@@ -11,18 +11,6 @@ export class LoginInput {
 }
 
 @InputType()
-export class RegisterInput {
-  @Field()
-  username: string;
-
-  @Field()
-  email: string;
-
-  @Field()
-  password: string;
-}
-
-@InputType()
 export class RequestPasswordResetInput {
   @Field()
   email: string;

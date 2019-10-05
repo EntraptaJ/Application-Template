@@ -1,20 +1,20 @@
-name: Build/Publish API
+name: Build/Publish Web
 on:
   push:
     branches:
       - master
     paths:
-      - 'API/*'
-      - 'API/*/*'
-      - 'API/*/*/*'
-      - 'API/*/*/*/*'
-      - 'API/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*/*/*'
-      - '.github/workflows/Build-API.yml'
+      - 'Web/*'
+      - 'Web/*/*'
+      - 'Web/*/*/*'
+      - 'Web/*/*/*/*'
+      - 'Web/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*/*'
+      - 'Web/*/*/*/*/*/*/*/*/*/*'
+      - '.github/workflows/Build-Web.yml'
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -25,7 +25,7 @@ jobs:
         uses: KristianFJones/Publish-Docker-Github-Action@master
         with:
           dockerfile: API/Dockerfile
-          name: docker.pkg.github.com/kristianfjones/application-template/application-template-api
+          name: docker.pkg.github.com/kristianfjones/application-template/application-template-ui
           username: ${{ secrets.DOCKER_GITHUB_USERNAME }}
           password: ${{ secrets.DOCKER_GITHUB_PASSWORD }}
           registry: docker.pkg.github.com

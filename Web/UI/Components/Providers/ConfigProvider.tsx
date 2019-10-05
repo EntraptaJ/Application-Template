@@ -1,5 +1,5 @@
 // Web/UI/Components/Providers/ConfigProvider.tsx
-import { AppConfiguration } from 'Server/Config';
+import { AppConfiguration } from 'Server/Configuration';
 import React, { createContext, PropsWithChildren, useContext } from 'react';
 
 const ConfigContext = createContext<AppConfiguration>({

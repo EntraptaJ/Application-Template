@@ -11,8 +11,8 @@ export function generateList(
   userRoles = [UserRole.Guest],
 ): React.ReactElement[] {
   return routes
-    .filter(({ roles }) =>
-      roles ? roles.every((role) => userRoles.includes(role)) : true,
+    .filter(({ roles, hidden }) =>
+      roles ? roles.every((role) => userRoles.includes(role)) : true && !hidden,
     )
     .map(({ children, to, label }) =>
       children ? (

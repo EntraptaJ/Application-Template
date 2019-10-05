@@ -8,15 +8,12 @@ import {
   Ctx,
 } from 'type-graphql';
 import { AuthResponse, RegisterResponse } from './AuthResponse';
-import {
-  LoginInput,
-  RegisterInput,
-  RequestPasswordResetInput,
-} from './AuthInput';
+import { LoginInput, RequestPasswordResetInput } from './AuthInput';
 import { User } from 'API/Modules/Users/UserModel';
 import { hasSetup } from '../Utilities/hasSetup';
 import { AuthContext } from 'API/Context';
 import { CurrentUser } from './CurrentUser';
+import { UserInput } from '../Users/UserInput';
 
 @Resolver()
 export class AuthResolver {
@@ -51,7 +48,7 @@ export class AuthResolver {
     username,
     password,
     email,
-  }: RegisterInput): Promise<RegisterResponse> {
+  }: UserInput): Promise<RegisterResponse> {
     const user = User.create({ username, email });
     await user.setPassword(password);
     await user.save();
