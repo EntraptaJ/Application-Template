@@ -10,9 +10,23 @@ export interface ImportedRouteInput {
 }
 
 interface RouteProps {
-  imported: ImportedRouteInput;
+  imported?: ImportedRouteInput;
   path: string;
   exact?: boolean;
+}
+
+function Loadable({
+  imported,
+}: {
+  imported?: ImportedRouteInput;
+}): React.ReactElement {
+  const Component = useImport({
+    imported: imported?.imported || import('UI/Routes/Error'),
+    path: imported?.path || 'Routes/Error/index.tsx',
+    Loader,
+  });
+
+  return <Component />;
 }
 
 export function Route({
@@ -21,29 +35,20 @@ export function Route({
   path,
   exact = false,
 }: PropsWithChildren<RouteProps>): React.ReactElement {
-  const Component = useImport({
-    ...imported,
-    Loader,
-  });
-
   if (children)
     return (
-      <RouteComponent
-        path={path}
-        render={() => (
-          <>
-            {' '}
-            <RouteComponent
-              key={path}
-              path={`${path}/`}
-              exact
-              component={Component}
-            />
-            {children}
-          </>
-        )}
-      />
+      <RouteComponent path={path}>
+        <RouteComponent path={`${path}/`} exact>
+          <Loadable imported={imported} />
+        </RouteComponent>
+
+        {children}
+      </RouteComponent>
     );
 
-  return <RouteComponent exact={exact} path={path} component={Component} />;
+  return (
+    <RouteComponent exact={exact} path={path}>
+      <Loadable imported={imported} />
+    </RouteComponent>
+  );
 }
