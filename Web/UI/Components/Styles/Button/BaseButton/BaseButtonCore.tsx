@@ -1,8 +1,7 @@
 // Web/UI/Components/Styles/Button/BaseButton/BaseButtonCore.tsx
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import Button, { ButtonProps } from '@material-ui/core/Button';
 import { useStyles } from './Styles';
-import clsx from 'clsx';
 
 export interface BaseButtonProps extends ButtonProps {
   label: string;
@@ -14,19 +13,21 @@ export default function BaseButtonCore({
   submit,
   label,
   children,
-  className,
   ...props
 }: PropsWithChildren<BaseButtonProps>): React.ReactElement {
-  const classes = useStyles(props);
+  const classes = useStyles({});
 
-  return (
-    <Button
-      {...props}
-      type={submit ? 'submit' : props.type}
-      className={clsx(classes.button, className)}
-    >
-      {children}
-      {label}
-    </Button>
+  return useMemo(
+    () => (
+      <Button
+        {...props}
+        type={submit ? 'submit' : props.type}
+        className={classes.button}
+      >
+        {children}
+        {label}
+      </Button>
+    ),
+    [props, submit, classes.button, children, label],
   );
 }

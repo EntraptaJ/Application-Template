@@ -4,11 +4,11 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { useRegister } from 'UI/Components/Providers/Session/useRegister';
 import { Form } from 'UI/Components/Styles/Form';
+import { useApolloErrors } from 'UI/Utils/useApolloErrors';
 import {
   FieldType,
   TextFieldInputType,
-} from 'UI/Components/Styles/Inputs/TextField/useTextFieldProps';
-import { useApolloErrors } from 'UI/Utils/useApolloErrors';
+} from 'UI/Components/Styles/Form/useFields';
 
 interface FormData {
   username: string;
@@ -53,7 +53,7 @@ export default function RegisterRoute(): React.ReactElement {
         },
         {
           type: FieldType.TEXT,
-          inputType: TextFieldInputType.PASSWORD,
+          inputType: TextFieldInputType.NEW_PASSWORD,
           name: 'password',
           label: 'Password',
         },

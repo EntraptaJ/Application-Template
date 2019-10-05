@@ -175,6 +175,17 @@ export type RegisterMutation = (
   ) }
 );
 
+export type UsersQueryVariables = {};
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: Array<(
+    { __typename?: 'User' }
+    & Pick<User, 'username' | 'id'>
+  )> }
+);
+
 export type HelloWorldQueryVariables = {};
 
 

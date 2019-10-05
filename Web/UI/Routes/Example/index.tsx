@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { useHelloWorldQuery } from './helloWorld.gen';
+import { Header } from 'UI/Components/Styles/Header';
 
 export default function ExampleRoute(): React.ReactElement {
   const [enabled, setEnabled] = useState<boolean>(false);
@@ -10,7 +11,7 @@ export default function ExampleRoute(): React.ReactElement {
 
   return (
     <>
-      <Typography variant='h4'>Example Route</Typography>
+      <Header title={{ primary: 'Example Route' }} background='secondary' />
       <Typography variant='h2' onClick={toggleEnabled}>
         {enabled ? 'True' : 'False'}
       </Typography>

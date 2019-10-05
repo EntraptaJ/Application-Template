@@ -21,7 +21,6 @@ export function Link({
 
   const preloadLink = useCallback(async () => {
     toggleLoaded();
-    console.log('Link Preloaded');
   }, [toggleLoaded]);
 
   const handleHover = useCallback(

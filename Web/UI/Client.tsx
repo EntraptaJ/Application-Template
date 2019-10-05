@@ -11,6 +11,7 @@ import {
   ImportProvider,
 } from './Components/Providers/ImportProvider';
 import { App } from './App';
+import { SnackbarProvider } from 'notistack';
 
 window.setImmediate = window.setTimeout;
 
@@ -22,7 +23,9 @@ function CoreApp({ children }: PropsWithChildren<{}>): React.ReactElement {
       <ImportProvider imports={imports}>
         <ConfigProvider {...window.APP_STATE.CONFIG}>
           <CookiesProvider>
-            <ApolloProvider>{children}</ApolloProvider>
+            <SnackbarProvider>
+              <ApolloProvider>{children}</ApolloProvider>
+            </SnackbarProvider>
           </CookiesProvider>
         </ConfigProvider>
       </ImportProvider>

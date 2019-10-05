@@ -1,7 +1,7 @@
 // Web/UI/Routes/TestRoute/index.tsx
 import React, { useCallback } from 'react';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Header } from 'UI/Components/Styles/Header';
 
 export default function TestRoute(): React.ReactElement {
   const test = 1;
@@ -11,10 +11,12 @@ export default function TestRoute(): React.ReactElement {
 
   return (
     <>
-      <Typography variant='h4'>Test Route</Typography>
-      <Button variant='contained' color='primary' onClick={handleClick}>
-        Click Me
-      </Button>
+      <Header title={{ primary: 'Test Route' }} background='secondary' />
+      <div>
+        <Button variant='contained' color='primary' onClick={handleClick}>
+          Click Me
+        </Button>
+      </div>
     </>
   );
 }

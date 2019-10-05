@@ -69,10 +69,14 @@ interface UseImportInput<T> {
   Loader: () => React.ReactElement;
 }
 
-export function useImport<T>({ imported, path, Loader }: UseImportInput<T>): T {
+export function useImport({
+  imported,
+  path,
+  Loader,
+}: UseImportInput<ReactComponent>): ReactComponent {
   const { addImport } = useContext(ImportContext);
   const { imports } = useContext(ImportContext);
-  const [result, setResult] = useState<ReactModule>();
+  const [result, setResult] = useState<ReactComponent>();
   const importsIndex = addImport({ path, promise: imported });
   const ourImport = useMemo(() => imports[importsIndex], [
     importsIndex,
@@ -82,22 +86,25 @@ export function useImport<T>({ imported, path, Loader }: UseImportInput<T>): T {
   useMemo(async () => {
     if (typeof imports[importsIndex].promise === 'undefined') return;
     if (typeof imports[importsIndex].promise === 'function') return;
-    imports[importsIndex].promise = (await imports[importsIndex]
-      .promise).default;
 
-    setResult(() => imports[importsIndex].promise);
+    const importedModule = (await imports[importsIndex].promise) as ReactModule;
+
+    imports[importsIndex].promise = importedModule.default;
+
+    setResult(() => importedModule.default);
   }, [importsIndex, imports]);
 
   return useMemo(() => {
     if (
-      (ourImport.promise && ourImport.promise.executor) ||
-      Promise.resolve(ourImport.promise) === ourImport.promise ||
+      (ourImport.promise && (ourImport.promise as any).executor) ||
+      Promise.resolve(ourImport.promise as Promise<any>) ===
+        ourImport.promise ||
       typeof ourImport.promise === 'undefined'
     ) {
       if (result) return result;
       return Loader;
     } else {
-      return ourImport.promise;
+      return ourImport.promise as ReactComponent;
     }
   }, [ourImport, result, Loader]);
 }

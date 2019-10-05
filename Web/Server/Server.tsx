@@ -1,12 +1,12 @@
 // Web/Server/Server.tsx
-import { getDataFromTree } from '@apollo/react-ssr';
+import { getDataFromTree, renderToStringWithData } from '@apollo/react-ssr';
 import ServerStyleSheets from '@material-ui/styles/ServerStyleSheets';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { readJSON } from 'fs-extra';
 import { Context } from 'koa';
 import React from 'react';
 import { CookiesProvider } from 'react-cookie';
-import { renderToNodeStream } from 'react-dom/server';
+import { renderToNodeStream, renderToString } from 'react-dom/server';
 import { StaticRouter, StaticRouterContext } from 'react-router';
 import prepass from 'react-ssr-prepass';
 import { AppConfiguration } from 'Server/Config';
@@ -20,6 +20,7 @@ import {
   ImportItem,
   ImportProvider,
 } from 'UI/Components/Providers/ImportProvider';
+import { SnackbarProvider } from 'notistack';
 
 const manifestFile = `dist/public/parcel-manifest.json`;
 
@@ -66,9 +67,11 @@ export async function uiServer(
       <ImportProvider imports={imports}>
         <ConfigProvider {...config}>
           <CookiesProvider cookies={cookies}>
-            <ApolloProvider cache={cache}>
-              <App />
-            </ApolloProvider>
+            <SnackbarProvider>
+              <ApolloProvider cache={cache}>
+                <App />
+              </ApolloProvider>
+            </SnackbarProvider>
           </CookiesProvider>
         </ConfigProvider>
       </ImportProvider>
@@ -79,7 +82,7 @@ export async function uiServer(
     try {
       prepass(AppComponent, async (a, b) => {});
     } catch {
-      console.log('HelloWorld');
+      console.log('Prerender Error');
     }
   };
 
@@ -93,10 +96,9 @@ export async function uiServer(
     initialSources.push({ type: SourceType.SCRIPT, src: parcelManifest[path] });
   }
 
-  const appStream = renderToNodeStream(sheets.collect(AppComponent));
   try {
-    await getDataFromTree(sheets.collect(AppComponent));
-  } catch (e) {}
+    await getDataFromTree(AppComponent);
+  } catch {}
 
   const headStream = renderHeadStream({
     sources: initialSources,
@@ -109,10 +111,12 @@ export async function uiServer(
     { end: false },
   );
 
+  const appStream = renderToNodeStream(sheets.collect(AppComponent));
+
   headStream.on('end', async () => {
-    ctx.res.write(`<style
-    id="jss-server-side"
-  >${sheets.toString()}</style>`);
+    await renderToStringWithData(AppComponent);
+    renderToString(sheets.collect(AppComponent));
+    ctx.res.write(`<style id="jss-server-side">${sheets.toString()}</style>`);
     ctx.res.write('</head><body><div id="app">');
     appStream.pipe(
       ctx.res,

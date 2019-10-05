@@ -35,6 +35,15 @@ declare module '*/register.graphql' {
 }
     
 
+declare module '*/Users.graphql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const Users: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/helloWorld.graphql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;

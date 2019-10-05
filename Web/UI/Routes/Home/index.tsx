@@ -1,11 +1,11 @@
 // Web/UI/Routes/Home/index.tsx
-import Typography from '@material-ui/core/Typography';
 import React, { useCallback, useState } from 'react';
 import BaseButtonCore from 'UI/Components/Styles/Button/BaseButton/BaseButtonCore';
 import { Link } from 'UI/Components/Styles/Link';
+import { Header } from 'UI/Components/Styles/Header';
 
 export default function HomeRoute(): React.ReactElement {
-  const [enabled, setEnabled] = useState<boolean>(false);
+  const [enabled, setEnabled] = useState<boolean>();
 
   const handleToggle = useCallback(() => setEnabled((state) => !state), [
     setEnabled,
@@ -13,13 +13,11 @@ export default function HomeRoute(): React.ReactElement {
 
   return (
     <>
-      <Typography variant='h4'>Home Route</Typography>
-      <BaseButtonCore
-        label={enabled ? 'Disable' : 'Enable'}
-        onClick={handleToggle}
-      />
+      <Header title={{ primary: 'APP NAME' }} />
+      <BaseButtonCore label={'Hello'} onClick={handleToggle} />
       <Link to='/Test' label='Testing' preloadOnHover={enabled} />
       <Link to='/Example' label='Example' preloadOnHover={enabled} />
+      <Link to='/Admin/Test' label='Admin' preloadOnHover={enabled} />
     </>
   );
 }

@@ -14,6 +14,7 @@ export enum FieldType {
 
 enum FieldAutoComplete {
   'password' = 'current-password',
+  'new-password' = 'new-password',
   'username' = 'username',
   'email' = 'email',
   'text' = 'off',
@@ -22,8 +23,17 @@ enum FieldAutoComplete {
 export enum TextFieldInputType {
   TEXT = 'text',
   PASSWORD = 'password',
+  NEW_PASSWORD = 'new-password',
   USERNAME = 'username',
   EMAIL = 'email',
+}
+
+export enum HTMLInputType {
+  'new-password' = 'password',
+  'password' = 'password',
+  'email' = 'email',
+  'username' = 'username',
+  'text' = 'text',
 }
 
 interface TextFieldType {
@@ -76,12 +86,8 @@ export function useFields({
         {fields.map((field, i) => {
           const validState = errors && field.name === errors.field && errors;
 
-          /* eslint-disable no-case-declarations */
           switch (field.type) {
             case FieldType.TEXT:
-              const { inputType, ...fieldData } = field;
-              const autoComplete = FieldAutoComplete[inputType];
-
               return (
                 <TextField
                   variant='outlined'
@@ -91,13 +97,12 @@ export function useFields({
                   fullWidth
                   error={!!validState}
                   helperText={validState && validState.errorMessage}
-                  autoComplete={autoComplete}
-                  {...fieldData}
-                  type={inputType}
+                  {...field}
+                  autoComplete={FieldAutoComplete[field.inputType]}
+                  type={HTMLInputType[field.inputType]}
                 />
               );
             case FieldType.SELECT:
-              const { items, ...selectData } = field;
               return (
                 <TextField
                   select
@@ -111,9 +116,9 @@ export function useFields({
                   fullWidth
                   error={!!validState}
                   helperText={validState && validState.errorMessage}
-                  {...selectData}
+                  {...field}
                 >
-                  {items.map(({ label, value = label }, i) => (
+                  {field.items.map(({ label, value = label }, i) => (
                     <option key={value} value={value}>
                       {label}
                     </option>
@@ -121,7 +126,6 @@ export function useFields({
                 </TextField>
               );
           }
-          /* eslint-enable no-case-declarations */
         })}
       </>
     ),

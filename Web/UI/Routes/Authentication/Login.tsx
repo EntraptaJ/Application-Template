@@ -4,11 +4,11 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router';
 import { useLogin } from 'UI/Components/Providers/Session/useLogin';
 import { Form } from 'UI/Components/Styles/Form';
-import {
-  FieldType,
-  TextFieldInputType,
-} from 'UI/Components/Styles/Inputs/TextField/useTextFieldProps';
 import { useApolloErrors } from 'UI/Utils/useApolloErrors';
+import {
+  TextFieldInputType,
+  FieldType,
+} from 'UI/Components/Styles/Form/useFields';
 
 interface FormData {
   username: string;
