@@ -27,9 +27,10 @@ export function ApolloProvider({
     token,
     initialState:
       typeof window !== 'undefined' ? window.APP_STATE.APOLLO_STATE : {},
-    onError: ({ graphQLErrors }) => {
-      if (graphQLErrors?.some(({ message }) => message === 'Argument Validation Error')) return
-      enqueueSnackbar('GraphQL Error', { variant: 'error' });
+    onError: ({ networkError, operation: { getContext } }) => {
+      if (getContext().ignoreError === true) return
+      if (networkError?.name === 'ServerParseError')  enqueueSnackbar('API Connection Failed', { variant: 'error', persist: true  })
+      else enqueueSnackbar('GraphQL Error', { variant: 'error' });
     },
   });
 

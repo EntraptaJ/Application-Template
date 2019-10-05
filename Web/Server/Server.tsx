@@ -114,7 +114,10 @@ export async function uiServer(
   const appStream = renderToNodeStream(sheets.collect(AppComponent));
 
   headStream.on('end', async () => {
-    await renderToStringWithData(AppComponent);
+    try {
+      await renderToStringWithData(AppComponent);
+    } catch {}
+
     renderToString(sheets.collect(AppComponent));
     ctx.res.write(`<style id="jss-server-side">${sheets.toString()}</style>`);
     ctx.res.write('</head><body><div id="app">');
