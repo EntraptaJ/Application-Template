@@ -69,6 +69,5 @@ export async function getCurrentUser(ctx: Context): Promise<User | undefined> {
   if (!authorization) return;
 
   const token: string = authorization.replace(/^Bearer\s/, '');
-  console.log(token);
   return getUserFromToken(token);
 }

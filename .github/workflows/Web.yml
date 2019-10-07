@@ -1,18 +1,6 @@
 name: Web
 on:
   push:
-    paths:
-      - 'Web/*'
-      - 'Web/*/*'
-      - 'Web/*/*/*'
-      - 'Web/*/*/*/*'
-      - 'Web/*/*/*/*/*'
-      - 'Web/*/*/*/*/*/*'
-      - 'Web/*/*/*/*/*/*/*'
-      - 'Web/*/*/*/*/*/*/*/*'
-      - 'Web/*/*/*/*/*/*/*/*/*'
-      - 'Web/*/*/*/*/*/*/*/*/*/*'
-      - '.github/workflows/Web.yml'
 jobs:
   Prettier:
     name: Prettier

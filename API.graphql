@@ -40,6 +40,7 @@ type Query {
   currentUser: CurrentUser
   hasSetup: Boolean!
   users: [User!]!
+  user(userId: String!): User!
   utilities: [Utility!]!
   helloWorld: String!
 }

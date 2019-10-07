@@ -5,12 +5,10 @@ import { createConnection } from 'typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { AlreadyHasActiveConnectionError } from 'typeorm/error/AlreadyHasActiveConnectionError';
 
-export function getConnectionArgs(
-  test: boolean = false,
-): PostgresConnectionOptions {
+export function getConnectionArgs(test = false): PostgresConnectionOptions {
   return {
     type: 'postgres',
-    database: test ? 'application' : config.db.name,
+    database: test ? 'application-test' : config.db.name,
     username: config.db.username,
     password: config.db.password,
     port: parseInt(`${config.db.port}`, 10),
@@ -20,7 +18,7 @@ export function getConnectionArgs(
       resolve(`${__dirname}/../Modules/**/*Model.js`),
     ],
     synchronize: true || config.env === 'development',
-    logging: true,
+    logging: !test,
   };
 }
 

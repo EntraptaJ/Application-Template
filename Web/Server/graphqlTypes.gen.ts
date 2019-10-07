@@ -75,8 +75,14 @@ export type Query = {
   currentUser?: Maybe<CurrentUser>,
   hasSetup: Scalars['Boolean'],
   users: Array<User>,
+  user: User,
   utilities: Array<Utility>,
   helloWorld: Scalars['String'],
+};
+
+
+export type QueryUserArgs = {
+  userId: Scalars['String']
 };
 
 export type RegisterResponse = {
