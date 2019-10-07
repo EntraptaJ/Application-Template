@@ -1,18 +1,6 @@
 name: API
 on:
   push:
-    paths:
-      - 'API/*'
-      - 'API/*/*'
-      - 'API/*/*/*'
-      - 'API/*/*/*/*'
-      - 'API/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*/*'
-      - 'API/*/*/*/*/*/*/*/*/*/*'
-      - '.github/workflows/API.yml'
 jobs:
   Test:
     name: Testing
