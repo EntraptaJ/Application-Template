@@ -8,6 +8,9 @@
     "prettier.singleQuote": true,
     "prettier.jsxSingleQuote": true,
     "editor.formatOnSave": true,
-    "eslint.workingDirectories": ["./Web", "./API"]
+    "eslint.workingDirectories": [
+      { "directory": "Web", "changeProcessCWD": true },
+      { "directory": "API", "changeProcessCWD": true }
+    ]
   }
 }

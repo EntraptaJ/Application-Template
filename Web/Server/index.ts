@@ -49,7 +49,7 @@ async function startWeb(): Promise<void> {
         });
     }
     try {
-      return uiServer(ctx, { baseUrl: 'http://192.168.2.18' });
+      return uiServer(ctx, { baseUrl: process.env.PUBLIC_URL! });
     } catch {
       ctx.body = 'Error';
     }
