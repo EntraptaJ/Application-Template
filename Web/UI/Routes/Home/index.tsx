@@ -13,7 +13,7 @@ export default function HomeRoute(): React.ReactElement {
 
   return (
     <>
-      <Header title={{ primary: 'APP NAME' }} />
+      <Header title={{ primary: 'APP NAME 1234' }} />
       <BaseButtonCore label={'Hello'} onClick={handleToggle} />
       <Link to='/Test' label='Testing' preloadOnHover={enabled} />
       <Link to='/Example' label='Example' preloadOnHover={enabled} />
